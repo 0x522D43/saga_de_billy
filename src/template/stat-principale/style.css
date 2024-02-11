@@ -1,15 +1,21 @@
 :host {
-    --border-color: black;
-    --text-color: black;
-    --background-color: transparent;
+    /* 
+    --border-color: var(--stat-principale-border-color, red);
+    --text-color: var(--stat-principale-text-color,--stat-principale-border-color);
+    --background-color: var(--stat-principale-background-color, pink); 
+    */
+    --stat-principale-background-color: pink; 
+    --stat-principale-border-color: red;
+    --stat-principale-text-color: var(--stat-principale-border-color);
 }
+
 ::part(stat-box) {
     margin: 10px;
-    width: 250px;
+    min-width: 250px;
     border: 1px solid;
-    border-color: var(--border-color);
-    background-color: var(--background-color);
-    color: var(--text-color);
+    border-color: var(--stat-principale-border-color);
+    background-color: var(--stat-principale-background-color);
+    color: var(--stat-principale-text-color);
     padding: 5px;
     border-radius: 5px;
 }
@@ -33,7 +39,7 @@
 }
 .sub-stat>div:not(:last-child) {
     border-bottom: 1px solid;
-    border-color:var(--border-color);
+    border-color:var(--stat-principale-border-color);
 }
 h1 {
     width: 100%;
@@ -42,7 +48,7 @@ h1 {
     text-align: center;
     text-transform: uppercase;
     border-bottom: 1px solid;
-    border-color: var(--border-color);
+    border-color: var(--stat-principale-border-color);
 }
 .stat-value {
     font-size: 1.2em;
@@ -53,7 +59,7 @@ h1 {
 }
 .bonus-element {
     border-top: 1px solid;
-    border-color: var(--border-color);
+    border-color: var(--stat-principale-border-color);
     margin-top: 5px;
     padding-top: 5px;
     text-align: center;
@@ -72,9 +78,12 @@ h1 {
     display: flex;
     flex-direction: column;
     border-left: 1px solid;
-    border-color: var(--border-color);
+    border-color: var(--stat-principale-border-color);
     margin-left: 5px;
 }
 .stat-total .stat-value {
     text-align: center;
+}
+.bonus-stat, #tickmarks {
+    margin-top: -5px;
 }

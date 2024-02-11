@@ -1,0 +1,41 @@
+<template id="fdcn-caractere">
+    <div part="stat">
+        <div class="a">
+            <stat-principale name="Habileté" base="2" carac="0" materiel="4" ></stat-principale>
+            <stat-principale name="Adresse" base="1" carac="-1" materiel="1" >Ne peut dépasser 5</stat-principale>
+            <stat-principale name="Endurance" base="2" carac="2" materiel="5" ></stat-principale>
+            <stat-principale name="Chance" base="3" carac="0" materiel="2"></stat-principale>
+        </div>
+        <div class="b">
+            <div >
+                <h1>Stat. Secondaires</h1>
+                <div class="sub-stat">
+                    <div><span class="stat-name">Dégats</span><span class="stat-value">+0</span></div>
+                    <div><span class="stat-name">Armure</span><span class="stat-value">0</span></div>
+                    <div><span class="stat-name">Critique</span><span class="stat-value">+0</span></div>
+                    <div><span class="stat-name">PV Max.</span>
+                        <div >
+                            <span class="bonus-label">+0 </span>
+                            <input type="range" min="0" max="24" value="0" step="1" class="bonus-stat" list="tickmarks"/>
+                            <datalist id="tickmarks">
+                                <option value="0" label="0"></option>
+                                <option value="2" label="2"></option>
+                                <option value="4" label="4"></option>
+                                <option value="6" label="6"></option>
+                                <option value="8" label="8"></option>
+                                <option value="10" label="10"></option>
+                                <option value="12" label="12"></option>
+                                <option value="14" label="14"></option>
+                                <option value="16" label="16"></option>
+                                <option value="18" label="18"></option>
+                                <option value="20" label="20"></option>
+                                <option value="22" label="22"></option>
+                                <option value="24" label="24"></option>
+                            </datalist>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</template>
