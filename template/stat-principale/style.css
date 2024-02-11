@@ -1,0 +1,80 @@
+:host {
+    --border-color: black;
+    --text-color: black;
+    --background-color: transparent;
+}
+::part(stat-box) {
+    margin: 10px;
+    width: 250px;
+    border: 1px solid;
+    border-color: var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 5px;
+}
+.stat {
+    display: flex;
+    flex-direction: row;
+}
+.stat>div {
+    flex-grow: 1;
+}
+.sub-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch
+}
+.sub-stat>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;
+}
+.sub-stat>div:not(:last-child) {
+    border-bottom: 1px solid;
+    border-color:var(--border-color);
+}
+h1 {
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 5px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid;
+    border-color: var(--border-color);
+}
+.stat-value {
+    font-size: 1.2em;
+    padding: 0.25em;
+}
+.stat-value.total-element {
+    font-size: 2.5em;
+}
+.bonus-element {
+    border-top: 1px solid;
+    border-color: var(--border-color);
+    margin-top: 5px;
+    padding-top: 5px;
+    text-align: center;
+    font-style: italic;
+}
+.bonus-element>slot>div {
+    justify-content: space-around;
+    display: flex;
+}
+.stat-name {
+    font-style: italic;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}
+.stat-total {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid;
+    border-color: var(--border-color);
+    margin-left: 5px;
+}
+.stat-total .stat-value {
+    text-align: center;
+}

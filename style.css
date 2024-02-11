@@ -1,0 +1,19 @@
+stat-principale {
+    --border-color: salmon;
+    --text-color: purple;
+    --background-color: orange;
+    --toto: red;
+}
+fdcn-caractere {
+    --border-color: salmon;
+    --text-color: purple;
+    --background-color: orange;
+    --toto: green;
+}
+:root {
+    
+    --border-color: salmon;
+    --text-color: purple;
+    --background-color: orange;
+    --toto: purple;
+}
