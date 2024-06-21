@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, set_note} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 
@@ -52,6 +52,8 @@ export default function(b){
         save(billy);
     });
 
+    
+
 }
 
 export const show_message = (message, level = 'info', callback = undefined) => {
@@ -94,7 +96,50 @@ export const remove_billy = function(e) {
     });
 }
 
+export const apply_notes_action = function(selector){
+    selector.find('.btn-delete').on('click', function(){
+        const index = $('.note-list .note').index($(this).closest('.note'));
+        billy.notes.splice(index, 1);
+        $('.note-list .note').slice(index, index + 1).remove();
+    });
+    selector.find('.btn-reorder').on('click', function(){
+        const index = $('.note-list .note').index($(this).closest('.note'));
+        const shift = $(this).data('step');
+        console.log(index, shift, index+shift);
+        if((index + shift) >= 0 && (index + shift) < billy.notes.length){
+            const target_elem = $('.note-list .note').slice(index + shift, index + shift + 1);
+            const source_elem = $('.note-list .note').slice(index, index + 1);
+            console.log(source_elem, target_elem);
+            (index < index + shift) ? source_elem.before(target_elem) : source_elem.after(target_elem);
+            billy.notes[index] = billy.notes.splice(index + shift, 1, billy.notes[index])[0];
+        }
+    });
+    selector.find('.btn-edit').on('click', function(){
+        const index = $('.note-list .note').index($(this).closest('.note'));
+        const note = $('.note-list .note').slice(index, index + 1);
+        note.find('.note-edit').text(note.find('.note-content').text()).height(note.find('.note-content')[0].clientHeight).focus();
+        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
+        console.log(note.find('.note-content')[0].clientHeight);
+    });
+    selector.find('.btn-edit-cancel').on('click', function(){
+        const index = $('.note-list .note').index($(this).closest('.note'));
+        const note = $('.note-list .note').slice(index, index + 1);
+        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
+    });
+    selector.find('.btn-edit-save').on('click', function(){
+        const index = $('.note-list .note').index($(this).closest('.note'));
+        const note = $('.note-list .note').slice(index, index + 1);
+        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
+        billy.notes[index] = note.find('.note-edit').val();
+        console.log(billy.notes[index]);
+    });
+};
+
+
 export const change_billy = b => {
+    $('#main').addClass('d-none');
+    $('#loading').removeClass('d-none');
+    
     billy = b;
     set_billy(billy);
     save(billy);
@@ -102,5 +147,8 @@ export const change_billy = b => {
     .filter(key => key.startsWith('Billy#'))
     .map(key => JSON.parse(sessionStorage?.getItem(key)))
     .map(billy => Billy(billy)));
+
+    $('#main').removeClass('d-none');
+    $('#loading').addClass('d-none');
 };
 

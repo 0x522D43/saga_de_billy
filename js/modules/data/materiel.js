@@ -38,7 +38,7 @@ export const materiel_initial = {
         stat: { END: 2, ARM: 1 },
     },
     panphlet: { 
-        name: 'Le Panphlet Touristique ', 
+        name: 'Le Panphlet Touristique', 
         categorie: categorie.equipements,
         stat: { CHA: 4 },
     },

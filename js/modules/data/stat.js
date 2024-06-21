@@ -1,4 +1,3 @@
-
 export const stat_base = {
     HAB: 2,
     ADR: 1,
@@ -35,6 +34,21 @@ export const sub_stat = {
     caractere: 'Caractere',
     materiel: 'Materiel',
     bonus: 'Bonus',
+};
+
+export const icon = {
+    HAB: 'bi-feather',
+    ADR: 'bi-wind',
+    END: 'bi-droplet-half',
+    CHA: 'bi-dice-3',
+    DEG: 'bi-hammer',
+    ARM: 'bi-shield',
+    CRIT: 'bi-lightning',
+    PV: 'bi-heart',
+    gloire: 'bi-trophy',
+    richesse: 'bi-database',
+    respect: 'bi-hand-thumbs-up',
+    rancune: 'bi-emoji-angry',
 };
 
 

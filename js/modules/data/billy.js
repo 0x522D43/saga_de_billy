@@ -121,11 +121,22 @@ class BillyCDSI extends Billy {
     }
 }
 
+class BillyLDV extends Billy {    
+   
+    constructor({ ...billy }){
+        super(billy);
+    }
+
+    get export(){
+        return super.export;
+    }
+}
+
 export default function(billy) {
     switch (get_book_by_name(billy?.book)){
         case books.FDCN: return new BillyFDCN(billy);
         case books.CDSI: return new BillyCDSI(billy);
-        case books.LDV:
+        case books.LDV: return new BillyLDV(billy);
         case books.NDC:
         case books.IS:
         case books.ODJ:

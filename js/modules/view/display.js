@@ -1,6 +1,9 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load } from './events.js';
+import { change_billy, load, apply_notes_action } from './events.js';
+import Event from './events.js';
+import * as Materiel from '../data/materiel.js';
+
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -60,13 +63,16 @@ const set_sub_stat = (stat_name, sub_stat, value = 0) => {
 
 export const set_title = book => {
     $('header nav .navbar-brand').css('color', book.color);
-    $('header nav .navbar-brand img').attr('src', `img/${book.shortname}.png`);
+    $('header nav .navbar-brand img').attr('src', `/img/${book.shortname}.svg`);
     $('header nav .full-title').text(book.name);
     $('header nav .short-title').text(book.shortname);
+    
+    $('#change-billy-book').val(book.shortname);
 };
 
 export const set_caractere = (name, caractere) => {
     $('.my-billy .caractere-name').text(`${name}`);
+    $('#change-billy-name').val(name);
     $('.my-billy .caractere-type').text(caractere.name)
         .css('background-color', caractere.color+'88');
 }
@@ -82,6 +88,12 @@ export const set_materiel = (...materiel) => {
         throw new Error('3 items should be picked at start, got', materiel?.length);
     } else {
         $('.my-billy .stat-materiel>li').not('.stat-sac').text( idx => materiel[idx].name);
+        for( let idx = 0; idx < materiel.length; idx++ ){
+            $(`#change-materiel-${idx+1}`).val(materiel[idx].name);
+             for( let offset = 1; offset < materiel.length; offset++ ){
+                 $(`#change-materiel-${idx+1} option[value="${materiel[(idx + offset)%materiel.length].name}"]`).attr('disabled', true);
+             }
+        }
     }
 }
 
@@ -92,19 +104,41 @@ export const set_sac = (...sac) => {
 
 export const set_note = (...notes) => {
     $('.my-billy .stat-notes .stat-total').text(notes.length || 0);
-    //todo
+    $('.note-list').html('');
+    if((notes.length || 0) === 0){
+        $('.no-notes').removeClass('d-none');
+    } else {
+        for(const note_id in notes){
+            const note_element = $('.template-note').children().clone();
+            note_element.find('.note-content').attr('data-bs-target', `.note-action[data-order='${note_id}']`).text(notes[note_id]);
+            note_element.find('.note-action').attr('data-order', note_id);
+            apply_notes_action(note_element);
+            $('.note-list').append(note_element);
+        }
+        $('.no-notes').addClass('d-none');
+    }
 }
 
 export const set_billy = perso => {
-    set_title(perso.book);
-    set_caractere(perso.name, perso.caractere);
-    $('.stat').addClass('d-none');
-    Object.keys(perso).filter(stat => Stats[stat]).map(stat => perso[stat]).filter(stat => stat instanceof Stat).forEach(set_stat);
-    Object.keys(perso.restant).filter(stat => Stats[stat]).forEach(stat => set_restant(Stats[stat], perso.restant[stat], 0, perso[stat].total));
-    set_materiel(...perso.materiel);
-    set_sac(...perso.sac);
-    set_note(...perso.notes);
-    //notes
+    $('#loading').removeClass('d-none');
+    $('#main').addClass('d-none');
+
+    fetch('./billy.html')
+    .then(r => r.text())    
+    .then(billy => {
+        $("#main").html(billy);
+        set_title(perso.book);
+        set_caractere(perso.name, perso.caractere);
+        $('.stat').addClass('d-none');
+        Object.keys(perso).filter(stat => Stats[stat]).map(stat => perso[stat]).filter(stat => stat instanceof Stat).forEach(set_stat);
+        Object.keys(perso.restant).filter(stat => Stats[stat]).forEach(stat => set_restant(Stats[stat], perso.restant[stat], 0, perso[stat].total));
+        set_materiel(...perso.materiel);
+        set_sac(...perso.sac);
+        set_note(...perso.notes);
+        Event(perso);
+        $('#main').removeClass('d-none');
+        $('#loading').addClass('d-none');
+    });
 };
 
 export const set_list_billy = (list_billy) => {
