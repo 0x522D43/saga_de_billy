@@ -60,7 +60,7 @@ const set_sub_stat = (stat_name, sub_stat, value = 0) => {
 
 export const set_title = book => {
     $('header nav .navbar-brand').css('color', book.color);
-    $('header nav .navbar-brand img').attr('src', `/img/${book.shortname}.svg`);
+    $('header nav .navbar-brand img').attr('src', `../img/${book.shortname}.svg`);
     $('header nav .full-title').text(book.name);
     $('header nav .short-title').text(book.shortname);
     

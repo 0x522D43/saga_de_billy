@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les Aventures du Pyro-Barbare & de Billy</title>
-    <link rel="icon" href="/img/PYRO.png">
+    <link rel="icon" href="../img/PYRO.png">
     <meta name="description" content="Les Aventures du Pyro-Barbare & de Billy">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"
@@ -18,12 +18,12 @@
 </head>
 
 <body>
-<ul class="list-group">
-</ul>
+    <ul class="list-group">
+    </ul>
     <header class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-body border-bottom shadow-lg">
         <nav class="container-fluid">
             <div class="navbar-brand p-0">
-                <img src="/img/PYRO.png" alt="icon" class="rounded-3" width="25" height="45"
+                <img src="../img/PYRO.png" alt="icon" class="rounded-3" width="25" height="45"
                     style="filter: invert(100%);">
             </div>
             <div class="navbar-brand py-0">
@@ -37,7 +37,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <button class="nav-link" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvas-my-billy-list" >
+                        data-bs-target="#offcanvas-my-billy-list">
                         <i class="bi bi-people"></i> Mes Billy
                     </button>
 
@@ -46,7 +46,8 @@
         </nav>
     </header>
     <!--BEGIN Billy List -->
-    <div id="offcanvas-my-billy-list" tabindex="-1" aria-labelledby="List de mes Billy" data-bs-scroll="true" class="offcanvas offcanvas-end">
+    <div id="offcanvas-my-billy-list" tabindex="-1" aria-labelledby="List de mes Billy" data-bs-scroll="true"
+        class="offcanvas offcanvas-end">
         <div class="offcanvas-header border">
             <h5 class="offcanvas-title" id="offcanvasRightLabel"><i class="bi bi-people"></i> Mes Billy</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -72,7 +73,7 @@
                     <h5 class="text-truncate accordion-header">
                         <button class=" accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
                             data-bs-target="#my-billy-FDCN" aria-expanded="false" aria-controls="my-billy-FDCN">
-                            <img src="/img/FDCN.svg" alt="icon FDCN" class="rounded-3 me-3" width="20" height="34">
+                            <img src="../img/FDCN.svg" alt="icon FDCN" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Forteresse du Chaudron Noir</span>
                         </button>
                     </h5>
@@ -94,7 +95,7 @@
                     <h5 class="text-truncate accordion-header">
                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
                             data-bs-target="#my-billy-CDSI" aria-expanded="false" aria-controls="my-billy-CDSI">
-                            <img src="/img/CDSI.svg" alt="icon CDSI" class="rounded-3 me-3" width="20" height="34">
+                            <img src="../img/CDSI.svg" alt="icon CDSI" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Corne des Sables d'Ivoire</span>
                         </button>
                     </h5>
@@ -116,7 +117,7 @@
                     <h5 class="text-truncate accordion-header">
                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
                             data-bs-target="#my-billy-LDV" aria-expanded="false" aria-controls="my-billy-LDV">
-                            <img src="/img/LDV.svg" alt="icon LDV" class="rounded-3 me-3" width="20" height="34">
+                            <img src="../img/LDV.svg" alt="icon LDV" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Lance de Valkar</span>
                         </button>
                     </h5>
@@ -134,11 +135,145 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white sticky-bottom border-top pt-1 px-3 mt-sm-2">
-                <button type="button" class="col-12 my-1 btn btn-outline-primary">
+            <div class="bg-white sticky-bottom border-top pt-1 px-3 mt-sm-2 pb-2">
+
+                <button type="button" class="collapse show col-12 my-1 btn btn-outline-primary create-billy-hide"
+                    data-bs-toggle="collapse" data-bs-target=".create-billy-hide" aria-expanded="false"
+                    aria-controls="create-billy-form" id="create-billy-button">
                     <i class="bi bi-person-add"></i>
                     Créer un nouveau Billy
                 </button>
+                <div class="collapse my-2 create-billy-hide" id="create-billy-form">
+                    <div class="card text-center">
+                        <div class="card-header text-primary bg-light sticky-top border-bottom py-2 mb-2">
+                            <i class="bi bi-pencil"></i>
+                            Création
+                            <button type="button" class="float-end btn-close" data-bs-toggle="collapse"
+                                data-bs-target=".create-billy-hide" aria-label="Close" id="close-create-billy-form"></button>
+                        </div>
+                        <div class="card-body">
+                            
+                            <div class="card-text text-body-secondary d-float justify-content-between">
+                                <form id="form-create-billy" class="needs-validation" novalidate>
+                                    <div class="d-flex flex-column mb-3 gap-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="create-billy-book" required=""
+                                                aria-label="Floating label select example" name="book">
+                                                <option selected disabled value="">Aucun</option>
+                                                <option value="FDCN">La Forterese du Chaudron
+                                                    Noir</option>
+                                                <option value="CDSI">La Corne des Sables d'Ivoire
+                                                </option>
+                                                <option value="LDV" disabled>La Lance de Valkar</option>
+                                            </select>
+                                            <label for="change-billy-book">Livre</label>
+                                        </div>
+
+                                        <div class="form-floating" novalidate>
+                                            <input type="text" class="form-control" id="create-billy-name" name="name" required
+                                                value="" minlength="3">
+                                            <label for="create-billy-name">Nom du Billy</label>
+                                        </div>
+
+                                        <div class="form-floating">
+                                            <select class="form-select" id="create-materiel-1" name="materiel_1" required=""
+                                                aria-label="Change materiel 1">
+                                                <option disabled selected value="">Aucun</option>
+                                                <optgroup label="Armes">
+                                                    <option value="L'Epée">L'épee</option>
+                                                    <option value="La Lance">La Lance</option>
+                                                    <option value="La Morgenstern">La Morgensterm</option>
+                                                    <option value="L'Arc">L'Arc</option>
+                                                </optgroup>
+                                                <optgroup label="Equipement">
+                                                    <option value="La Cotte de Mailles">La Cote de Maille
+                                                    </option>
+                                                    <option value="La Marmite">La marmitte</option>
+                                                    <option value="Le Panphlet Touristique">Le Panphlet
+                                                        Touristique
+                                                    </option>
+                                                    <option value="Le Kit de Soin">Le Kit de Soin</option>
+                                                </optgroup>
+                                                <optgroup label="Outils">
+                                                    <option value="La Fourche">La Fourche</option>
+                                                    <option value="La Dague">La Dague</option>
+                                                    <option value="Le Kit d'Escalade">Le Kit
+                                                        d'Escalade</option>
+                                                    <option value="Le Sac de Grain">Le Sac de Grain
+                                                    </option>
+                                                </optgroup>
+                                            </select>
+                                            <label for="change-materiel-1">Materiel 1</label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select" id="create-materiel-2" name="materiel_2" required=""
+                                                aria-label="Change materiel 2">
+                                                <option disabled selected value="">Aucun</option>
+                                                <optgroup label="Armes">
+                                                    <option value="L'Epée">L'épee</option>
+                                                    <option value="La Lance">La Lance</option>
+                                                    <option value="La Morgenstern">La Morgensterm</option>
+                                                    <option value="L'Arc">L'Arc</option>
+                                                </optgroup>
+                                                <optgroup label="Equipement">
+                                                    <option value="La Cotte de Mailles">La Cote de Maille
+                                                    </option>
+                                                    <option value="La Marmite">La marmitte</option>
+                                                    <option value="Le Panphlet Touristique">Le Panphlet
+                                                        Touristique
+                                                    </option>
+                                                    <option value="Le Kit de Soin">Le Kit de Soin</option>
+                                                </optgroup>
+                                                <optgroup label="Outils">
+                                                    <option value="La Fourche">La Fourche</option>
+                                                    <option value="La Dague">La Dague</option>
+                                                    <option value="Le Kit d'Escalade">Le Kit
+                                                        d'Escalade</option>
+                                                    <option value="Le Sac de Grain">Le Sac de Grain
+                                                    </option>
+                                                </optgroup>
+                                            </select>
+                                            <label for="change-materiel-2">Materiel 2</label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <select class="form-select" id="create-materiel-3 is-invalid" name="materiel_3" required=""
+                                                aria-label="Change materiel 3">
+                                                <option disabled selected value="">Aucun</option>
+                                                <optgroup label="Armes">
+                                                    <option value="L'Epée">L'épee</option>
+                                                    <option value="La Lance">La Lance</option>
+                                                    <option value="La Morgenstern">La Morgensterm</option>
+                                                    <option value="L'Arc">L'Arc</option>
+                                                </optgroup>
+                                                <optgroup label="Equipement">
+                                                    <option value="La Cotte de Mailles">La Cote de Maille
+                                                    </option>
+                                                    <option value="La Marmite">La marmitte</option>
+                                                    <option value="Le Panphlet Touristique">Le Panphlet
+                                                        Touristique
+                                                    </option>
+                                                    <option value="Le Kit de Soin">Le Kit de Soin</option>
+                                                </optgroup>
+                                                <optgroup label="Outils">
+                                                    <option value="La Fourche">La Fourche</option>
+                                                    <option value="La Dague">La Dague</option>
+                                                    <option value="Le Kit d'Escalade">Le Kit
+                                                        d'Escalade</option>
+                                                    <option value="Le Sac de Grain">Le Sac de Grain
+                                                    </option>
+                                                </optgroup>
+                                            </select>
+                                            <label for="change-materiel-3">Materiel 3</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="bi bi-check-lg"></i> Valider
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="col-12 my-1 btn btn-outline-success">
                     <i class="bi bi-file-earmark-arrow-down"></i>
                     Importer un Billy

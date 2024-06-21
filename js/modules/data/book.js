@@ -44,4 +44,4 @@ export const books = {
     },
 };
 
-export const get_by_name = name => Object.values(books).find(book => book.name === name ); 
+export const get_by_name = name => Object.values(books).find(book => (book.name === name || book.shortname === name)); 

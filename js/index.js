@@ -44,12 +44,12 @@ const c= {
     ],
 };
 
-sessionStorage.clear();
-sessionStorage.setItem('Billy#Calto-Magnus',JSON.stringify(Billy({...c, name: 'Calto-Magnus'}).export));
-sessionStorage.setItem('Billy#Victirius', JSON.stringify(Billy({...c,  name: 'Victirius', book: books.CDSI.name}).export));
-sessionStorage.setItem('Billy#Stramica', JSON.stringify(Billy({...c, name: 'Stramica', materiel: [materiel_initial.epee.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
-sessionStorage.setItem('Billy#aoiuzhoide', JSON.stringify(Billy({...c, name: 'aoiuzhoide', materiel: [materiel_initial.cotte_de_maille.name, materiel_initial.kit_de_soin.name, materiel_initial.panphlet.name]}).export));
-sessionStorage.setItem('Billy#zaeae', JSON.stringify(Billy({...c, name: 'zaeae', book: books.CDSI.name, materiel: [materiel_initial.sac_de_grain.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
+//sessionStorage.clear();
+//sessionStorage.setItem('Billy#Calto-Magnus',JSON.stringify(Billy({...c, name: 'Calto-Magnus'}).export));
+//sessionStorage.setItem('Billy#Victirius', JSON.stringify(Billy({...c,  name: 'Victirius', book: books.CDSI.name}).export));
+//sessionStorage.setItem('Billy#Stramica', JSON.stringify(Billy({...c, name: 'Stramica', materiel: [materiel_initial.epee.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
+//sessionStorage.setItem('Billy#aoiuzhoide', JSON.stringify(Billy({...c, name: 'aoiuzhoide', materiel: [materiel_initial.cotte_de_maille.name, materiel_initial.kit_de_soin.name, materiel_initial.panphlet.name]}).export));
+//sessionStorage.setItem('Billy#zaeae', JSON.stringify(Billy({...c, name: 'zaeae', book: books.CDSI.name, materiel: [materiel_initial.sac_de_grain.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
 
 const my_billy = Object.keys(sessionStorage)
     .filter(key => key.startsWith('Billy#'))

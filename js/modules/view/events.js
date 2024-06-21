@@ -1,6 +1,7 @@
 import {set_restant, set_stat, set_list_billy, set_billy} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
+import { books } from '../data/book.js';
 
 let billy;
 
@@ -50,6 +51,35 @@ export default function(b){
         set_restant(Stat[stat], billy.restant[stat]);
         
         save(billy);
+    });
+
+    $('#create-billy-button').on('click', function(){
+        $('#form-create-billy')[0].reset();
+    });
+
+    $('#form-create-billy').on('submit', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        if (!this.checkValidity()) {
+            this.classList.add('was-validated');$
+            return;
+        }
+        this.classList.remove('was-validated');
+        const data = Object.fromEntries(new FormData(this));
+        const billy = Billy({
+            book: data.book,
+            name: data.name, 
+            materiel: [data.materiel_1, data.materiel_2, data.materiel_3]
+        });
+        sessionStorage.setItem(`Billy#${data.name}`, JSON.stringify(billy.export));
+        const my_billy = Object.keys(sessionStorage)
+            .filter(key => key.startsWith('Billy#'))
+            .map(key => JSON.parse(sessionStorage?.getItem(key)))
+            .sort( billy => billy.modified )
+            .map(billy => Billy(billy));
+        set_list_billy(my_billy);
+        $('#close-create-billy-form').click();
+
     });
 
     

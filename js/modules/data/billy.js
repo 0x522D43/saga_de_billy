@@ -26,7 +26,7 @@ class Billy {
 
     constructor( { book, materiel, bonus = {}, restant = {}, sac = [], notes = [], name = undefined, created = new Date().valueOf(), modified = undefined } ){
         this.created = new Date(created);
-        this.modified = new Date(modified);
+        this.modified = modified ? new Date(modified) : undefined;
         this.book = get_book_by_name(book);
         this.materiel = materiel.map(Materiel.get_by_name);
         this.caractere = Materiel.get_caractere(...materiel);
@@ -43,20 +43,12 @@ class Billy {
         this.CRIT = new Stat(stat.CRIT, stat_base.CRIT, this.caractere.stat.CRIT, stat_materiel.CRIT, bonus.CRIT);
         this.PV = new Stat(stat.PV, stat_base.PV(this.END.total), this.caractere.stat.PV, stat_materiel.PV, bonus.PV);
         this.richesse = new Stat(stat.richesse, stat_base.richesse, this.caractere.stat.richesse, stat_materiel.richesse, bonus.richesse);
-        if(this.book === books.FDCN){
-            this.gloire = new Stat(stat.gloire, stat_base.gloire, this.caractere.stat.gloire, stat_materiel.gloire, bonus.gloire);
-        }
-        if(this.book === books.CDSI){
-            this.respect = new Stat(stat.respect, stat_base.respect, this.caractere.stat.respect, stat_materiel.respect, bonus.respect);
-            this.rancune = new Stat(stat.rancune, stat_base.rancune, this.caractere.stat.rancune, stat_materiel.rancune, bonus.rancune);
-        }
         
-
         this.sac = sac;
         this.notes = notes;
         this.restant = {
-            CHA: Math.min(this.CHA.total, restant.CHA),
-            PV: Math.min(this.PV.total, restant.PV),
+            CHA: Math.min(this.CHA.total, restant.CHA || Infinity),
+            PV: Math.min(this.PV.total, restant.PV || Infinity),
 
         };
     }
@@ -92,7 +84,7 @@ class BillyFDCN extends Billy {
     constructor({ ...billy }){
         super(billy);
         const stat_materiel = Materiel.get_stat(...this.materiel);
-        this.gloire = new Stat(stat.gloire, stat_base.gloire, this.caractere.stat.gloire, stat_materiel.gloire, billy.bonus.gloire);
+        this.gloire = new Stat(stat.gloire, stat_base.gloire, this.caractere.stat.gloire, stat_materiel.gloire, billy.bonus?.gloire);
     }
 
     get export(){
@@ -109,8 +101,8 @@ class BillyCDSI extends Billy {
     constructor({ ...billy }){
         super(billy);
         const stat_materiel = Materiel.get_stat(...this.materiel);
-        this.respect = new Stat(stat.respect, stat_base.respect, this.caractere.stat.respect, stat_materiel.respect, billy.bonus.respect);
-        this.rancune = new Stat(stat.rancune, stat_base.rancune, this.caractere.stat.rancune, stat_materiel.rancune, billy.bonus.rancune);
+        this.respect = new Stat(stat.respect, stat_base.respect, this.caractere.stat.respect, stat_materiel.respect, billy.bonus?.respect);
+        this.rancune = new Stat(stat.rancune, stat_base.rancune, this.caractere.stat.rancune, stat_materiel.rancune, billy.bonus?.rancune);
     }
 
     get export(){
