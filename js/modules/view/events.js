@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy, set_note} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 

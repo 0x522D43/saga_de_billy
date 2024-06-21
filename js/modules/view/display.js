@@ -1,9 +1,6 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load, apply_notes_action } from './events.js';
-import Event from './events.js';
-import * as Materiel from '../data/materiel.js';
-
+import { change_billy, load, apply_notes_action, default as Event } from './events.js';
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -99,7 +96,6 @@ export const set_materiel = (...materiel) => {
 
 export const set_sac = (...sac) => {
     $('.my-billy .stat-sac .stat-total').text(sac.length);
-    //todo
 }
 
 export const set_note = (...notes) => {
