@@ -1,6 +1,6 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load, apply_notes_action, default as Event } from './events.js';
+import { change_billy, load, apply_notes_action, billy_event} from './events.js';
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -116,7 +116,7 @@ export const set_note = (...notes) => {
 }
 
 export const set_billy = perso => {
-    $('#loading').removeClass('d-none');
+    $('#main').addClass('d-none');
     $('#main').addClass('d-none');
 
     fetch('./billy.html')
@@ -131,7 +131,7 @@ export const set_billy = perso => {
         set_materiel(...perso.materiel);
         set_sac(...perso.sac);
         set_note(...perso.notes);
-        Event(perso);
+        billy_event(perso);
         $('#main').removeClass('d-none');
         $('#loading').addClass('d-none');
     });
@@ -156,9 +156,11 @@ export const set_list_billy = (list_billy) => {
             });
             $(`.my-billy-list[data-book="${billy.book.shortname}"]>#my-billy-${billy.book.shortname} ul`).append(element);
         }
+        $('#create-billy').removeClass('show');
     } else {
         $('.no-billy-list').removeClass('d-none');
-        $('.my-billy-list>div').remove();
+        $('.my-billy-list>div>ul').remove();
+        $('#create-billy,#main').addClass('show');
     }
 };
 

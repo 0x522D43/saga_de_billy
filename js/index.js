@@ -50,17 +50,22 @@ const c= {
 //sessionStorage.setItem('Billy#Stramica', JSON.stringify(Billy({...c, name: 'Stramica', materiel: [materiel_initial.epee.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
 //sessionStorage.setItem('Billy#aoiuzhoide', JSON.stringify(Billy({...c, name: 'aoiuzhoide', materiel: [materiel_initial.cotte_de_maille.name, materiel_initial.kit_de_soin.name, materiel_initial.panphlet.name]}).export));
 //sessionStorage.setItem('Billy#zaeae', JSON.stringify(Billy({...c, name: 'zaeae', book: books.CDSI.name, materiel: [materiel_initial.sac_de_grain.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
-
 const my_billy = Object.keys(sessionStorage)
     .filter(key => key.startsWith('Billy#'))
     .map(key => JSON.parse(sessionStorage?.getItem(key)))
     .sort( billy => billy.modified )
     .map(billy => Billy(billy));
 
-
 let billy = my_billy
-    .reduce( (prev, curr) => prev?.modified > curr?.modified ? prev : curr, undefined ) || c;
+    .reduce( (prev, curr) => prev?.modified > curr?.modified ? prev : curr, undefined );
 
 set_list_billy(my_billy);
-Display(billy);
 
+Event();
+
+if(billy){
+    Display(billy);
+} /*else {
+    $('#nav-my-billy-btn').click();
+    $('#create-billy-button').click();
+}   */

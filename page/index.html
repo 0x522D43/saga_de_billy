@@ -36,7 +36,7 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <button class="nav-link" type="button" data-bs-toggle="offcanvas"
+                    <button id="nav-my-billy-btn" class="nav-link" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvas-my-billy-list">
                         <i class="bi bi-people"></i> Mes Billy
                     </button>
@@ -50,7 +50,8 @@
         class="offcanvas offcanvas-end">
         <div class="offcanvas-header border">
             <h5 class="offcanvas-title" id="offcanvasRightLabel"><i class="bi bi-people"></i> Mes Billy</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                id="btn-my-billy-list-close"></button>
         </div>
         <div class="offcanvas-body p-0">
 
@@ -58,8 +59,8 @@
             <ul id="template-my-billy-list" class="d-none">
                 <li class="list-group-item" data-bs-dismiss="offcanvas">
                     <span class="badge text-uppercase text-dark caractere-type">?</span>
-                    <span class="text-nowrap">Billy
-                        <span class="fw-semibold caractere-name"></span>
+                    <span class="text-nowrap">
+                        <span class="caractere-name"></span>
                     </span>
                     <br>
                     <small class="text-muted">Joué le
@@ -137,24 +138,72 @@
             </div>
             <div class="bg-white sticky-bottom border-top pt-1 px-3 mt-sm-2 pb-2">
 
-                <button type="button" class="collapse show col-12 my-1 btn btn-outline-primary create-billy-hide"
-                    data-bs-toggle="collapse" data-bs-target=".create-billy-hide" aria-expanded="false"
+                <button type="button" class="col-12 my-1 btn btn-outline-primary"
+                    data-bs-toggle="collapse" data-bs-target="#main,#create-billy" aria-expanded="false"
                     aria-controls="create-billy-form" id="create-billy-button">
                     <i class="bi bi-person-add"></i>
                     Créer un nouveau Billy
                 </button>
-                <div class="collapse my-2 create-billy-hide" id="create-billy-form">
-                    <div class="card text-center">
+                <button type="button" class="col-12 my-1 btn btn-outline-success">
+                    <i class="bi bi-file-earmark-arrow-down"></i>
+                    Importer un Billy
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--END Billy List -->
+
+
+    <!--BEGIN contextual message -->
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-fixed p-3 top-0 start-50 translate-middle-x">
+            <div id="alert-message"
+                class="toast align-items-center border-2 bg-primary-subtle border-primary-subtle text-primary-emphasis shadow"
+                role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+                <div class="d-flex ">
+                    <div class="toast-body w-100">
+                        <span class="message">message</span>
+                        <div class="confirmation mt-2 pt-2 border-top d-none">
+                            <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="toast">Oui</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="toast">Non</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END contextual message -->
+
+    <section class="container-fluid p-0 collapse show" id="main">
+        <section class="container">
+        <div class="d-flex flex-column mt-2 text-body-secondary">
+            <p class="text-center">
+                Vous n'avez aucun <i>Billy</i> pour le moment
+            </p>
+            <button type="button" class="col-md-4 offset-md-4 my-1 btn btn-outline-success">
+                <i class="bi bi-file-earmark-arrow-down"></i>
+                Importer un Billy
+            </button>
+        </div>
+        </section>
+    </section>
+    <section class="container collapse show" id="create-billy">
+            <div class="d-flex flex-column my-3 text-body-secondary">
+                <div class="collapse show create-billy-form">
+                    <div class="card text-center col-md-8 col-lg-6 offset-md-2 offset-lg-3 col-12">
                         <div class="card-header text-primary bg-light sticky-top border-bottom py-2 mb-2">
                             <i class="bi bi-pencil"></i>
                             Création
-                            <button type="button" class="float-end btn-close" data-bs-toggle="collapse"
-                                data-bs-target=".create-billy-hide" aria-label="Close" id="close-create-billy-form"></button>
+                            <button type="button" class="float-end btn-close disabled" data-bs-toggle="collapse"
+                                data-bs-target="#main,#create-billy" aria-label="Close"
+                                id="close-create-billy-form"></button>
                         </div>
                         <div class="card-body">
-                            
+
                             <div class="card-text text-body-secondary d-float justify-content-between">
-                                <form id="form-create-billy" class="needs-validation" novalidate>
+                                <form class="form-create-billy needs-validation" novalidate>
                                     <div class="d-flex flex-column mb-3 gap-3">
                                         <div class="form-floating">
                                             <select class="form-select" id="create-billy-book" required=""
@@ -170,14 +219,14 @@
                                         </div>
 
                                         <div class="form-floating" novalidate>
-                                            <input type="text" class="form-control" id="create-billy-name" name="name" required
-                                                value="" minlength="3">
+                                            <input type="text" class="form-control" id="create-billy-name" name="name"
+                                                required value="" minlength="3">
                                             <label for="create-billy-name">Nom du Billy</label>
                                         </div>
 
                                         <div class="form-floating">
-                                            <select class="form-select" id="create-materiel-1" name="materiel_1" required=""
-                                                aria-label="Change materiel 1">
+                                            <select class="form-select" id="create-materiel-1" name="materiel_1"
+                                                required="" aria-label="Change materiel 1">
                                                 <option disabled selected value="">Aucun</option>
                                                 <optgroup label="Armes">
                                                     <option value="L'Epée">L'épee</option>
@@ -206,8 +255,8 @@
                                             <label for="change-materiel-1">Materiel 1</label>
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select" id="create-materiel-2" name="materiel_2" required=""
-                                                aria-label="Change materiel 2">
+                                            <select class="form-select" id="create-materiel-2" name="materiel_2"
+                                                required="" aria-label="Change materiel 2">
                                                 <option disabled selected value="">Aucun</option>
                                                 <optgroup label="Armes">
                                                     <option value="L'Epée">L'épee</option>
@@ -236,8 +285,8 @@
                                             <label for="change-materiel-2">Materiel 2</label>
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select" id="create-materiel-3 is-invalid" name="materiel_3" required=""
-                                                aria-label="Change materiel 3">
+                                            <select class="form-select" id="create-materiel-3 is-invalid"
+                                                name="materiel_3" required="" aria-label="Change materiel 3">
                                                 <option disabled selected value="">Aucun</option>
                                                 <optgroup label="Armes">
                                                     <option value="L'Epée">L'épee</option>
@@ -274,42 +323,11 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="col-12 my-1 btn btn-outline-success">
-                    <i class="bi bi-file-earmark-arrow-down"></i>
-                    Importer un Billy
-                </button>
             </div>
         </div>
-    </div>
-    <!--END Billy List -->
-
-
-    <!--BEGIN contextual message -->
-    <div aria-live="polite" aria-atomic="true" class="position-relative">
-        <div class="toast-container position-fixed p-3 top-0 start-50 translate-middle-x">
-            <div id="alert-message"
-                class="toast align-items-center border-2 bg-primary-subtle border-primary-subtle text-primary-emphasis shadow"
-                role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
-                <div class="d-flex ">
-                    <div class="toast-body w-100">
-                        <span class="message">message</span>
-                        <div class="confirmation mt-2 pt-2 border-top d-none">
-                            <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="toast">Oui</button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="toast">Non</button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Close"></button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--END contextual message -->
-
-    <section class="container-fluid p-0" id="main">
-
     </section>
-    <section id="loading" class="d-flex justify-content-center my-5">
+
+    <section id="loading" class="d-flex d-none justify-content-center my-5 ">
         <output class="spinner-border text-primary" style="width: 5rem; height: 5rem;">
             <span class="visually-hidden">Loading...</span>
         </output>
