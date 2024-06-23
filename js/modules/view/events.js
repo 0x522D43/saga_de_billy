@@ -1,15 +1,34 @@
-import {set_restant, set_stat, set_list_billy, set_billy} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, default as Display} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
+import utilities from './utilities.js';
 
 let billy;
 
 export default function(b) {
     
+    $('#create-billy-book').on('change', function() {
+        create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));
+    });
+
+    $('#create-materiel-1, #create-materiel-2, #create-materiel-3').on('change', function() {
+        $('#create-materiel-1, #create-materiel-2, #create-materiel-3')
+            .not(this)
+            .find(`option[value="${$(this).val()}"`)
+            .attr('disabled', true);
+    });
+
     $('#create-billy-button').on('click', function(){
+        $('#create-billy .change-content').addClass('d-none');
+        $('#create-billy .change-content.creation').removeClass('d-none');
+        $('#create-billy-book').attr('disabled',false);
         $('.form-create-billy')[0].reset();
+        $('.form-create-billy').data('action', 'creation');
+        create_list_book($('#create-billy-book'));
+        create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));
         $('#btn-my-billy-list-close').click();
-        $('#create-billy').addClass('show');
+        new bootstrap.Collapse('#main', {toggle: false}).hide();
+        new bootstrap.Collapse('#create-billy', {toggle: false}).show();
         $('#close-create-billy-form').removeClass('disabled');
     });
 
@@ -22,18 +41,27 @@ export default function(b) {
         }
         this.classList.remove('was-validated');
         const data = Object.fromEntries(new FormData(this));
-        const billy = Billy({
-            book: data.book,
-            name: data.name, 
-            materiel: [data.materiel_1, data.materiel_2, data.materiel_3]
-        });
+        let billy;
+        if($(this).data('action') !== 'modification' ){
+            billy = Billy({
+                book: data.book,
+                name: data.name, 
+                materiel: [data.materiel_1, data.materiel_2, data.materiel_3]
+            });
+        } else {
+            billy = Billy({
+                ...utilities.current_billy.export,
+                name: data.name, 
+                materiel: [data.materiel_1, data.materiel_2, data.materiel_3],
+            });
+            sessionStorage.removeItem(`Billy#${utilities.current_billy.name}`);
+        }
         sessionStorage.setItem(`Billy#${data.name}`, JSON.stringify(billy.export));
         const my_billy = Object.keys(sessionStorage)
             .filter(key => key.startsWith('Billy#'))
             .map(key => JSON.parse(sessionStorage?.getItem(key)))
             .sort( billy => billy.modified )
             .map(billy => Billy(billy));
-            console.log(my_billy);
         set_list_billy(my_billy);
         $('#main').addClass('show');
         $('#create-billy').removeClass('show');
@@ -41,14 +69,40 @@ export default function(b) {
 
     });
 
-    if(b){
-        billy_event(b);
-    }
-
 }
 
 export function billy_event(b){
     billy = b;
+
+    $('#modification-billy-button').on('click', function(){
+        $('#create-billy .change-content').addClass('d-none');
+        $('#create-billy .change-content.modification').removeClass('d-none');
+        $('#create-billy-book').attr('disabled',true);
+        $('.form-create-billy').data('action', 'modification');
+
+        create_list_book($('#create-billy-book'));
+        create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));
+        
+        $('.form-create-billy')[0].reset();
+        $('.form-create-billy [name="book"]').val(billy.book.shortname).change();
+        $('.form-create-billy [name="book"]').val();
+        $('.form-create-billy [name="name"]').val(billy.name);
+        $('.form-create-billy [name="materiel_1"]').val(billy.materiel[0].shortname);
+        $('.form-create-billy [name="materiel_2"]').val(billy.materiel[1].shortname);
+        $('.form-create-billy [name="materiel_3"]').val(billy.materiel[2].shortname);
+
+        $('#close-billy-details').click();
+        new bootstrap.Collapse('#main', {toggle: false}).hide();
+        new bootstrap.Collapse('#create-billy', {toggle: false}).show();
+          
+        $('#close-create-billy-form').removeClass('disabled');
+    });
+
+    $('#delete-billy-confirm-button').on('click', function(){
+        sessionStorage.removeItem(`Billy#${utilities.current_billy.name}`);
+        location.reload();
+    });
+
     $('.stat-bonus-change').on('click', function() {
         const stat = $(this).data('stat');
         const quantity = parseFloat($(this).data('quantity'));
@@ -146,11 +200,9 @@ export const apply_notes_action = function(selector){
     selector.find('.btn-reorder').on('click', function(){
         const index = $('.note-list .note').index($(this).closest('.note'));
         const shift = $(this).data('step');
-        console.log(index, shift, index+shift);
         if((index + shift) >= 0 && (index + shift) < billy.notes.length){
             const target_elem = $('.note-list .note').slice(index + shift, index + shift + 1);
             const source_elem = $('.note-list .note').slice(index, index + 1);
-            console.log(source_elem, target_elem);
             (index < index + shift) ? source_elem.before(target_elem) : source_elem.after(target_elem);
             billy.notes[index] = billy.notes.splice(index + shift, 1, billy.notes[index])[0];
         }
@@ -160,7 +212,6 @@ export const apply_notes_action = function(selector){
         const note = $('.note-list .note').slice(index, index + 1);
         note.find('.note-edit').text(note.find('.note-content').text()).height(note.find('.note-content')[0].clientHeight).focus();
         note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
-        console.log(note.find('.note-content')[0].clientHeight);
     });
     selector.find('.btn-edit-cancel').on('click', function(){
         const index = $('.note-list .note').index($(this).closest('.note'));
@@ -172,7 +223,6 @@ export const apply_notes_action = function(selector){
         const note = $('.note-list .note').slice(index, index + 1);
         note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
         billy.notes[index] = note.find('.note-edit').val();
-        console.log(billy.notes[index]);
     });
 };
 
@@ -184,10 +234,8 @@ export const change_billy = b => {
     billy = b;
     set_billy(billy);
     save(billy);
-    set_list_billy(Object.keys(sessionStorage)
-    .filter(key => key.startsWith('Billy#'))
-    .map(key => JSON.parse(sessionStorage?.getItem(key)))
-    .map(billy => Billy(billy)));
+    utilities.current_billy = billy;
+    set_list_billy(utilities.get_billy());
 
     $('#main').removeClass('d-none');
     $('#loading').addClass('d-none');

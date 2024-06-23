@@ -23,7 +23,7 @@
     <header class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-body border-bottom shadow-lg">
         <nav class="container-fluid">
             <div class="navbar-brand p-0">
-                <img src="../img/PYRO.png" alt="icon" class="rounded-3" width="25" height="45"
+                <img src="../img/FDCN.svg" alt="icon" class="rounded-3" width="25" height="45"
                     style="filter: invert(100%);">
             </div>
             <div class="navbar-brand py-0">
@@ -72,13 +72,13 @@
             <div class="accordion">
                 <div class="my-billy-list accordion-item border-0" data-book="FDCN">
                     <h5 class="text-truncate accordion-header">
-                        <button class=" accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#my-billy-FDCN" aria-expanded="false" aria-controls="my-billy-FDCN">
+                        <button class=" accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#my-billy-FDCN" aria-expanded="true" aria-controls="my-billy-FDCN">
                             <img src="../img/FDCN.svg" alt="icon FDCN" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Forteresse du Chaudron Noir</span>
                         </button>
                     </h5>
-                    <div id="my-billy-FDCN" class="accordion-collapse collapse">
+                    <div id="my-billy-FDCN" class="accordion-collapse collapse show">
                         <div class="accordion-body py-0">
                             <p class="no-billy-list text-center mb-0 py-2">
                                 <span class="fw-normal text-muted text-center fst-italic my-3">
@@ -94,13 +94,13 @@
                 <hr class="my-0 mx-3">
                 <div class="my-billy-list accordion-item border-0" data-book="CDSI">
                     <h5 class="text-truncate accordion-header">
-                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#my-billy-CDSI" aria-expanded="false" aria-controls="my-billy-CDSI">
+                        <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#my-billy-CDSI" aria-expanded="true" aria-controls="my-billy-CDSI">
                             <img src="../img/CDSI.svg" alt="icon CDSI" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Corne des Sables d'Ivoire</span>
                         </button>
                     </h5>
-                    <div id="my-billy-CDSI" class="accordion-collapse collapse">
+                    <div id="my-billy-CDSI" class="accordion-collapse collapse show">
                         <div class="accordion-body py-0">
                             <p class="no-billy-list text-center mb-0 py-2">
                                 <span class="fw-normal text-muted text-center fst-italic my-3">
@@ -116,13 +116,13 @@
                 <hr class="my-0 mx-3">
                 <div class="my-billy-list accordion-item border-0" data-book="LDV">
                     <h5 class="text-truncate accordion-header">
-                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#my-billy-LDV" aria-expanded="false" aria-controls="my-billy-LDV">
+                        <button class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#my-billy-LDV" aria-expanded="true" aria-controls="my-billy-LDV">
                             <img src="../img/LDV.svg" alt="icon LDV" class="rounded-3 me-3" width="20" height="34">
                             <span class="text-nowrap text-truncate">La Lance de Valkar</span>
                         </button>
                     </h5>
-                    <div id="my-billy-LDV" class="accordion-collapse collapse">
+                    <div id="my-billy-LDV" class="accordion-collapse collapse show">
                         <div class="accordion-body py-0">
                             <p class="no-billy-list text-center mb-0 py-2">
                                 <span class="fw-normal text-muted text-center fst-italic my-3">
@@ -138,9 +138,7 @@
             </div>
             <div class="bg-white sticky-bottom border-top pt-1 px-3 mt-sm-2 pb-2">
 
-                <button type="button" class="col-12 my-1 btn btn-outline-primary"
-                    data-bs-toggle="collapse" data-bs-target="#main,#create-billy" aria-expanded="false"
-                    aria-controls="create-billy-form" id="create-billy-button">
+                <button type="button" class="col-12 my-1 btn btn-outline-primary" id="create-billy-button">
                     <i class="bi bi-person-add"></i>
                     Créer un nouveau Billy
                 </button>
@@ -191,11 +189,12 @@
     </section>
     <section class="container collapse show" id="create-billy">
             <div class="d-flex flex-column my-3 text-body-secondary">
-                <div class="collapse show create-billy-form">
+                <div class="create-billy-form">
                     <div class="card text-center col-md-8 col-lg-6 offset-md-2 offset-lg-3 col-12">
-                        <div class="card-header text-primary bg-light sticky-top border-bottom py-2 mb-2">
+                        <div class="card-header text-primary bg-white sticky-top border-bottom py-2 mb-2">
                             <i class="bi bi-pencil"></i>
-                            Création
+                            <span class="change-content creation">Création</span>
+                            <span class="change-content modification d-none">Mofification</span>
                             <button type="button" class="float-end btn-close disabled" data-bs-toggle="collapse"
                                 data-bs-target="#main,#create-billy" aria-label="Close"
                                 id="close-create-billy-form"></button>
@@ -209,11 +208,7 @@
                                             <select class="form-select" id="create-billy-book" required=""
                                                 aria-label="Floating label select example" name="book">
                                                 <option selected disabled value="">Aucun</option>
-                                                <option value="FDCN">La Forterese du Chaudron
-                                                    Noir</option>
-                                                <option value="CDSI">La Corne des Sables d'Ivoire
-                                                </option>
-                                                <option value="LDV" disabled>La Lance de Valkar</option>
+                                                <!-- populated on loading -->
                                             </select>
                                             <label for="change-billy-book">Livre</label>
                                         </div>
@@ -285,7 +280,7 @@
                                             <label for="change-materiel-2">Materiel 2</label>
                                         </div>
                                         <div class="form-floating">
-                                            <select class="form-select" id="create-materiel-3 is-invalid"
+                                            <select class="form-select" id="create-materiel-3"
                                                 name="materiel_3" required="" aria-label="Change materiel 3">
                                                 <option disabled selected value="">Aucun</option>
                                                 <optgroup label="Armes">

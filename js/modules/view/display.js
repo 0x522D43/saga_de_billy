@@ -1,6 +1,8 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
 import { change_billy, load, apply_notes_action, billy_event} from './events.js';
+import { books } from '../data/book.js';
+import { materiel_by_book_group_by_category } from '../data/materiel.js';
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -115,11 +117,10 @@ export const set_note = (...notes) => {
     }
 }
 
-export const set_billy = perso => {
-    $('#main').addClass('d-none');
-    $('#main').addClass('d-none');
-
-    fetch('./billy.html')
+export const set_billy = async perso => {
+    $('#loading').removeClass('d-none');
+    $('#main').removeClass('show');
+    await fetch('./billy.html')
     .then(r => r.text())    
     .then(billy => {
         $("#main").html(billy);
@@ -132,8 +133,8 @@ export const set_billy = perso => {
         set_sac(...perso.sac);
         set_note(...perso.notes);
         billy_event(perso);
-        $('#main').removeClass('d-none');
         $('#loading').addClass('d-none');
+        $('#main').addClass('show');
     });
 };
 
@@ -163,5 +164,34 @@ export const set_list_billy = (list_billy) => {
         $('#create-billy,#main').addClass('show');
     }
 };
+
+export const create_list_book = (select) => {
+    select.find('option').remove();
+    const books_ready = Object.values(books).filter(book => book?.ready).sort((p,n) => p.tome - n.tome);
+    for(let book of [{shortname: '', name: 'Aucun'},...books_ready]){
+        const $option = $('<option>', {value: book.shortname, text: book.name, disabled: !book?.ready});
+        select.append($option);
+    }
+    select.val('');
+};
+
+export const create_list_materiel = (book, materiels ) => {
+    materiels.find('optgroup').remove();
+    materiels.val('');
+    if(book.val()){
+        const book_materiel = materiel_by_book_group_by_category(book.val());
+        for(const categorie in book_materiel){
+            const $optgroup = $('<optgroup>', {label: categorie}); 
+            for(const materiel in book_materiel[categorie]){
+                const $option = $('<option>', {value: materiel, text: book_materiel[categorie][materiel].name}); 
+                $optgroup.append($option);
+            }
+            materiels.append($optgroup);
+        }
+    }
+};
+
+create_list_book($('#create-billy-book'));
+create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));
 
 export default set_billy;

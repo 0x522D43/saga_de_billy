@@ -5,12 +5,14 @@ export const books = {
         name: 'La Foreresse du Chaudron Noir',
         tome: 1,
         color: '#f1aeb5',
+        ready: true,
     },
     CDSI: {
         shortname: 'CDSI',
         name: 'La Corne des Sables d\'Ivoire',
         tome: 2,
         color: '#fecba1',
+        ready: true,
     },
     LDV: {
         shortname: 'LDV',

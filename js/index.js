@@ -1,13 +1,13 @@
 
 
 'use strict';
-import Display from './modules/view/display.js';
-import { set_list_billy } from './modules/view/display.js';
+import { set_list_billy, default as Display } from './modules/view/display.js';
 import Event from './modules/view/events.js';
-import Billy from './modules/data/billy.js';
 import { books } from './modules/data/book.js';
-import { materiel_initial } from './modules/data/materiel.js';
-
+import { materiel } from './modules/data/materiel.js';
+import utilities from './modules/view/utilities.js';
+import Billy from './modules/data/billy.js';
+/*
 $().ready(() => {
     //$('#modal_my-billy').modal('hide');
 });
@@ -16,9 +16,9 @@ const c= {
     book: books.FDCN.name,
     //book: books.CDSI.name,
     materiel: [
-        materiel_initial.arc.name, 
-        materiel_initial.fourche.name, 
-        materiel_initial.sac_de_grain.name,
+        materiel.arc.name, 
+        materiel.fourche.name, 
+        materiel.sac_de_grains.name,
     ],
     bonus: {
         HAB: 1, 
@@ -44,20 +44,16 @@ const c= {
     ],
 };
 
-//sessionStorage.clear();
-//sessionStorage.setItem('Billy#Calto-Magnus',JSON.stringify(Billy({...c, name: 'Calto-Magnus'}).export));
-//sessionStorage.setItem('Billy#Victirius', JSON.stringify(Billy({...c,  name: 'Victirius', book: books.CDSI.name}).export));
-//sessionStorage.setItem('Billy#Stramica', JSON.stringify(Billy({...c, name: 'Stramica', materiel: [materiel_initial.epee.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
-//sessionStorage.setItem('Billy#aoiuzhoide', JSON.stringify(Billy({...c, name: 'aoiuzhoide', materiel: [materiel_initial.cotte_de_maille.name, materiel_initial.kit_de_soin.name, materiel_initial.panphlet.name]}).export));
-//sessionStorage.setItem('Billy#zaeae', JSON.stringify(Billy({...c, name: 'zaeae', book: books.CDSI.name, materiel: [materiel_initial.sac_de_grain.name, materiel_initial.morgenstern.name, materiel_initial.panphlet.name]}).export));
-const my_billy = Object.keys(sessionStorage)
-    .filter(key => key.startsWith('Billy#'))
-    .map(key => JSON.parse(sessionStorage?.getItem(key)))
-    .sort( billy => billy.modified )
-    .map(billy => Billy(billy));
+sessionStorage.clear();
+sessionStorage.setItem('Billy#Calto-Magnus',JSON.stringify(Billy({...c, name: 'Calto-Magnus'}).export));
+sessionStorage.setItem('Billy#Victirius', JSON.stringify(Billy({...c,  name: 'Victirius', book: books.CDSI.name}).export));
+sessionStorage.setItem('Billy#Stramica', JSON.stringify(Billy({...c, name: 'Stramica', materiel: [materiel.epee.name, materiel.morgenstern.name, materiel.panphlet.name]}).export));
+sessionStorage.setItem('Billy#aoiuzhoide', JSON.stringify(Billy({...c, name: 'aoiuzhoide', materiel: [materiel.cotte_de_maille.name, materiel.kit_de_soin.name, materiel.panphlet.name]}).export));
+sessionStorage.setItem('Billy#zaeae', JSON.stringify(Billy({...c, name: 'zaeae', book: books.CDSI.name, materiel: [materiel.sac_de_grains.name, materiel.morgenstern.name, materiel.panphlet.name]}).export));
+*/
 
-let billy = my_billy
-    .reduce( (prev, curr) => prev?.modified > curr?.modified ? prev : curr, undefined );
+const my_billy = utilities.get_billy();
+let billy = utilities.current_billy;
 
 set_list_billy(my_billy);
 
@@ -65,7 +61,4 @@ Event();
 
 if(billy){
     Display(billy);
-} /*else {
-    $('#nav-my-billy-btn').click();
-    $('#create-billy-button').click();
-}   */
+}
