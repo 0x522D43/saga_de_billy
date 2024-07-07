@@ -1,0 +1,29 @@
+{
+    "name": "🥕 Cacarot",
+    "created": 1720333427263,
+    "modified": 1720333427267,
+    "book": "La Foreresse du Chaudron Noir",
+    "materiel": [
+        "La Fourche",
+        "Le Sac de Grains",
+        "La Marmite"
+    ],
+    "bonus": {
+        "HAB": 0,
+        "ADR": 0,
+        "END": 0,
+        "CHA": 0,
+        "DEG": 0,
+        "ARM": 0,
+        "CRIT": 0,
+        "PV": 0,
+        "richesse": 0,
+        "gloire": 0
+    },
+    "restant": {
+        "CHA": 5,
+        "PV": 33
+    },
+    "sac": [],
+    "notes": []
+}

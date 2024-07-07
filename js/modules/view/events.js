@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, default as Display} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 import utilities from './utilities.js';
@@ -7,6 +7,43 @@ let billy;
 
 export default function(b) {
     
+    $('#import_billy_list, #import_billy_new').on('change', async function(e){
+        const read_billy = [];
+        for(const file of e.target.files){
+            read_billy.push(new Promise( function(resolve, reject) {
+                const reader = new FileReader();
+                reader.onloadend = function(){
+                    try {
+                        const billy_data = JSON.parse(reader.result);
+                        if(billy_data instanceof Array) {
+                            resolve(billy_data.map(Billy));
+                        } else {
+                            resolve([Billy(billy_data)]);
+                        }
+                    } catch(error) {
+                        reject(file.name);
+                    }
+                }
+                reader.readAsText(file);
+            }));
+            
+        }
+        
+        await Promise.all(read_billy).then(
+            list => list.flat().forEach(change_billy),
+            file => show_message(`Format d'import incorecte pour: ${file}`,'danger')
+        );
+    });
+
+    $('#export_billy_list').on('click', function(){
+        save(utilities.current_billy);
+        const billy_data = Object.keys(sessionStorage)
+            .filter(key => key.startsWith('Billy#'))
+            .map(key => JSON.parse(sessionStorage?.getItem(key)));
+        
+        download_text_file(`saga_de_billy.${Date.now()}.json`, JSON.stringify(billy_data, null, 4));
+    });
+
     $('#create-billy-book').on('change', function() {
         create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));
     });
@@ -65,7 +102,7 @@ export default function(b) {
         set_list_billy(my_billy);
         $('#main').addClass('show');
         $('#create-billy').removeClass('show');
-        set_billy(billy);
+        change_billy(billy);
 
     });
 
@@ -73,6 +110,13 @@ export default function(b) {
 
 export function billy_event(b){
     billy = b;
+
+    $('#export_current_billy').on('click', function(){
+        const my_billy = utilities.current_billy;
+        save(my_billy);
+        download_text_file(`saga_de_billy.${my_billy.book.shortname}.${my_billy.name}.${Date.now()}.json`, JSON.stringify(my_billy.export, null, 4));
+    });
+
 
     $('#modification-billy-button').on('click', function(){
         $('#create-billy .change-content').addClass('d-none');
@@ -241,3 +285,13 @@ export const change_billy = b => {
     $('#loading').addClass('d-none');
 };
 
+const download_text_file = (filename, text) => {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}

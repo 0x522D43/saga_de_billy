@@ -142,9 +142,14 @@
                     <i class="bi bi-person-add"></i>
                     Créer un nouveau Billy
                 </button>
-                <button type="button" class="col-12 my-1 btn btn-outline-success">
+                <label for="import_billy_list" class="form-label col-12 my-1 btn btn-outline-primary">
                     <i class="bi bi-file-earmark-arrow-down"></i>
-                    Importer un Billy
+                    Importer mes Billy
+                </label>
+                <input class="d-none" type="file" id="import_billy_list" multiple> 
+                <button class="col-12 my-1 btn btn-outline-success w-100" type="button"  id="export_billy_list">
+                    <i class="bi bi-download"></i>
+                    Exporter mes Billy
                 </button>
             </div>
         </div>
@@ -179,11 +184,12 @@
         <div class="d-flex flex-column mt-2 text-body-secondary">
             <p class="text-center">
                 Vous n'avez aucun <i>Billy</i> pour le moment
-            </p>
-            <button type="button" class="col-md-4 offset-md-4 my-1 btn btn-outline-success">
+            </p>            
+            <label for="import_billy_new" class="form-label btn btn-outline-primary col-md-4 offset-md-4 my-1">
                 <i class="bi bi-file-earmark-arrow-down"></i>
-                Importer un Billy
-            </button>
+                Importer mes Billy
+            </label>
+            <input class="form-control d-none" type="file" id="import_billy_new" multiple>          
         </div>
         </section>
     </section>
@@ -194,7 +200,7 @@
                         <div class="card-header text-primary bg-white sticky-top border-bottom py-2 mb-2">
                             <i class="bi bi-pencil"></i>
                             <span class="change-content creation">Création</span>
-                            <span class="change-content modification d-none">Mofification</span>
+                            <span class="change-content modification d-none">Modification</span>
                             <button type="button" class="float-end btn-close disabled" data-bs-toggle="collapse"
                                 data-bs-target="#main,#create-billy" aria-label="Close"
                                 id="close-create-billy-form"></button>

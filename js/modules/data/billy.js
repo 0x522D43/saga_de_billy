@@ -29,7 +29,7 @@ class Billy {
         this.modified = modified ? new Date(modified) : undefined;
         this.book = get_book_by_name(book);
         this.materiel = materiel.map(Materiel.get_by_name);
-        this.caractere = Materiel.get_caractere(...materiel);
+        this.caractere = Materiel.get_caractere(...materiel); 
         this.name = name || generate_name(this.book, this.created, ...this.materiel);
 
         const stat_materiel = Materiel.get_stat(...this.materiel);
@@ -146,5 +146,5 @@ const generate_name = (book, created, ...materiel) => {
         hash = ((hash << 5) - hash) + chr;
         hash |= 0; // Convert to 32bit integer
     }
-    return '#'+Math.abs(hash);
+    return '#'+Math.abs(hash).toString();
 };

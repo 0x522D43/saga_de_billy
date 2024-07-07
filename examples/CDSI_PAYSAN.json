@@ -1,0 +1,30 @@
+{
+    "name": "🥕 Poluxy",
+    "created": 1720333469768,
+    "modified": 1720333469770,
+    "book": "La Corne des Sables d'Ivoire",
+    "materiel": [
+        "Le Filet de Pêche",
+        "Le Fléau à Grains",
+        "La Boîte de Crayons"
+    ],
+    "bonus": {
+        "HAB": 0,
+        "ADR": 0,
+        "END": 0,
+        "CHA": 0,
+        "DEG": 0,
+        "ARM": 0,
+        "CRIT": 0,
+        "PV": 0,
+        "richesse": 0,
+        "rancune": 0,
+        "respect": 0
+    },
+    "restant": {
+        "CHA": 6,
+        "PV": 23
+    },
+    "sac": [],
+    "notes": []
+}

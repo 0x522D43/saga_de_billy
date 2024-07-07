@@ -1,0 +1,65 @@
+[
+    {
+        "name": "📻 Raditz",
+        "created": 1720333427263,
+        "modified": 1720344279769,
+        "book": "La Foreresse du Chaudron Noir",
+        "materiel": [
+            "La Fourche",
+            "Le Sac de Grains",
+            "La Marmite"
+        ],
+        "bonus": {
+            "HAB": 0,
+            "ADR": 0,
+            "END": 0,
+            "CHA": 0,
+            "DEG": 0,
+            "ARM": 0,
+            "CRIT": 0,
+            "PV": 0,
+            "richesse": 0,
+            "gloire": 0
+        },
+        "restant": {
+            "CHA": 5,
+            "PV": 33
+        },
+        "sac": [],
+        "notes": []
+    },
+    {
+        "name": "♾️ Vlom",
+        "created": 1720333469768,
+        "modified": 1720344207178,
+        "book": "La Corne des Sables d'Ivoire",
+        "materiel": [
+            "Le Sabre",
+            "Le Sceau",
+            "La Boîte de Crayons"
+        ],
+        "bonus": {
+            "HAB": 0,
+            "ADR": 0,
+            "END": 0,
+            "CHA": 0,
+            "DEG": 0,
+            "ARM": 0,
+            "CRIT": 0,
+            "PV": 0,
+            "richesse": 0,
+            "rancune": 0,
+            "respect": 0
+        },
+        "restant": {
+            "CHA": 6,
+            "PV": 11
+        },
+        "sac": [],
+        "notes": [
+            "abc",
+            " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla commodo gravida. Donec vitae felis quis nibh vestibulum sagittis. Nullam malesuada bibendum dolor, a interdum orci finibus quis. Praesent neque nisl, pretium sit amet eros sit amet, rutrum facilisis elit. Proin sed pulvinar lectus. Curabitur elit augue, interdum non ullamcorper nec, volutpat nec tellus. Duis pulvinar molestie congue. Morbi malesuada elit ut diam dapibus, quis pellentesque nulla laoreet. Phasellus a pulvinar velit, nec dictum nunc. Sed at ligula in augue rutrum efficitur. Donec quis felis condimentum, cursus dolor ultricies, pharetra orci. Quisque porta aliquam vehicula. Pellentesque consectetur massa a nibh sagittis condimentum. Aenean nec purus ac elit malesuada malesuada ut sit amet ligula. Morbi orci justo, accumsan id commodo nec, luctus non erat. Cras semper blandit sem suscipit lacinia.\nNunc fringilla tortor at lectus lacinia hendrerit. Nunc vestibulum, libero vitae gravida congue, velit est luctus odio, nec fermentum diam libero et erat. Vivamus nunc tellus, pellentesque eget nisi vitae, sagittis iaculis arcu. Quisque gravida nisi eget lorem efficitur iaculis. Donec non ex orci. Integer interdum nulla in bibendum consequat. Sed fermentum, mauris ac finibus sollicitudin, neque leo sollicitudin dui, non gravida enim tortor et magna. Fusce sed lectus elementum, volutpat felis ut, ornare felis. Etiam ac magna felis. Donec tempus molestie neque quis bibendum. Sed id facilisis justo. Nulla euismod lobortis lacus sit amet placerat. ",
+            "ghi"
+        ]
+    }
+]
