@@ -140,11 +140,11 @@ export default function(billy) {
 const generate_name = (book, created, ...materiel) => {
     const data = book.name+created+materiel.map(m => m.name).join('');
     let hash = 0, i, chr;
-    if (data.length === 0) return hash;
+    if (data.length === 0) return hash.toString();
     for (i = 0; i < data.length; i++) {
         chr = data.charCodeAt(i);
         hash = ((hash << 5) - hash) + chr;
         hash |= 0; // Convert to 32bit integer
     }
-    return '#'+Math.abs(hash).toString();
+    return '#'+Math.abs(hash);
 };

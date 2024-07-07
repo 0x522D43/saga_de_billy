@@ -2,6 +2,7 @@ import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, crea
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 import utilities from './utilities.js';
+import { objects } from '../data/objet.js';
 
 let billy;
 
@@ -193,6 +194,46 @@ export function billy_event(b){
         save(billy);
     });
 
+    $('#sac_search_chapter').on('click', function(){
+        $('#sac_search_result>ul:not(#sac_search_result_template)>li').addClass('d-none');
+        new bootstrap.Collapse('#sac_search_result', {toggle: false}).hide();
+        const object_list=objects[utilities.current_billy.book.shortname];
+        const search_value = parseInt($('#sac_seach_input').val());
+        if(isNaN(search_value)){
+            show_message('La valeur saisie n\'est pas un Numéro de chapitre.','danger');
+        } else {
+            $('#sac_search_result>ul:not(#sac_search_result_template)>li')
+                .filter((idx, elem) => object_list[$(elem).find('button').data('name')].includes(search_value))
+                .removeClass('d-none');
+            if($('#sac_search_result>ul:not(#sac_search_result_template)>li:not(.d-none)').length===0){
+                show_message('Aucun résultat','info');
+            } else {        
+                new bootstrap.Collapse('#sac_search_result', {toggle: false}).show();
+            }
+        }
+    });
+    
+    $('#sac_search_name').on('click', function(){
+        $('#sac_search_result>ul:not(#sac_search_result_template)>li').addClass('d-none');
+        const search_value = $('#sac_seach_input').val().normalize("NFKD").replace(/\p{Diacritic}/gu, "").toUpperCase();
+        if(search_value.length < 3){
+            show_message('La valeur saisie doit faire au moins 3 caractères','warning');
+            new bootstrap.Collapse('#sac_search_result', {toggle: false}).hide();
+        } else {
+            $('#sac_search_result>ul:not(#sac_search_result_template)>li')
+                .filter((idx, elem) => $(elem).find('button').data('name')
+                    .normalize("NFKD").replace(/\p{Diacritic}/gu, "").toUpperCase()
+                    .includes(search_value))
+                .removeClass('d-none');
+            if($('#sac_search_result>ul:not(#sac_search_result_template)>li:not(.d-none)').length===0){
+                show_message('Aucun résultat','info');
+                new bootstrap.Collapse('#sac_search_result', {toggle: false}).hide();
+            } else {       
+                new bootstrap.Collapse('#sac_search_result', {toggle: false}).show();
+            }
+        }
+    });
+
 }
 
 export const show_message = (message, level = 'info', callback = undefined) => {
@@ -286,7 +327,7 @@ export const change_billy = b => {
 };
 
 const download_text_file = (filename, text) => {
-    var element = document.createElement('a');
+    const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
   

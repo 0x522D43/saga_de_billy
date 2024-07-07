@@ -3,6 +3,7 @@ import Billy from '../data/billy.js';
 import { change_billy, load, apply_notes_action, billy_event} from './events.js';
 import { books } from '../data/book.js';
 import { materiel_by_book_group_by_category } from '../data/materiel.js';
+import { objects } from '../data/objet.js';
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -44,7 +45,7 @@ export const set_stat = stat => {
             $(`.my-billy .stat.${stat_class_name}`).removeClass('d-none');
         }
     } catch(error){
-        console.error('Cannot set stap for ',error);
+        console.error('Cannot set stat for ',error);
     }
 };
 
@@ -98,6 +99,35 @@ export const set_materiel = (...materiel) => {
 
 export const set_sac = (...sac) => {
     $('.my-billy .stat-sac .stat-total').text(sac.length);
+    sac.forEach(add_sac_item);
+}
+
+export const set_sac_search = (book) => {
+    const object_list = objects[book.shortname];
+    $('#sac_search_result>ul:not(#sac_search_result_template)>li').remove();
+    Object.keys(object_list).forEach(add_sac_item_research);
+}
+
+const add_sac_item_research = (name) => {
+    const element = $('#sac_search_result_template>li').clone();
+    element.find('span').text(name);
+    element.find('button').data('name', name).on('click', function(){ add_sac_item($(this).data('name'))});
+    $('#sac_search_result>ul:not(#sac_search_result_template)').append(element);
+};
+
+const add_sac_item = function(name){
+    const sac_item = $('#sac_list_item_template>li').clone();
+    sac_item.find('span').text(name || $(this).data('name'));
+    sac_item.find('button').on('click', remove_sac_item);
+    $('#sac_list').append(sac_item);
+    $('#sac_vide_text').addClass('d-none');
+};
+
+const remove_sac_item = function(){
+    $(this).parent().remove();
+    if($('#sac_list>li:not(#sac_vide_text)') .length === 0){
+        $('#sac_vide_text').removeClass('d-none');
+    }
 }
 
 export const set_note = (...notes) => {
@@ -131,6 +161,7 @@ export const set_billy = async perso => {
         Object.keys(perso.restant).filter(stat => Stats[stat]).forEach(stat => set_restant(Stats[stat], perso.restant[stat], 0, perso[stat].total));
         set_materiel(...perso.materiel);
         set_sac(...perso.sac);
+        set_sac_search(perso.book);
         set_note(...perso.notes);
         billy_event(perso);
         $('#loading').addClass('d-none');

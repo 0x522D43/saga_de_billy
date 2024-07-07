@@ -723,18 +723,38 @@
                                 </div>
                                 <div class="offcanvas-body">
                                     <div class="row">
-                                        <ul class="list-group list-group-flush list-group px-3">
-                                            <li class="list-group-item text-muted fst-italic">
-                                                Aucune objet
+                                        <ul class="list-group list-group-flush list-group px-3" id="sac_list">
+                                            <div id="sac_list_item_template" class="d-none">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span class="text-nowrap text-truncate">?</span>
+                                                    <button class="btn btn-sm btn-outline-danger border-0"><i class="bi bi-trash"></i></button>
+                                                </li>
+                                            </div>
+                                            <li class="list-group-item" id="sac_vide_text">
+                                                <span class="text-nowrap text-truncate text-muted fst-italic">Aucune objet</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    </div>
+                                <div class="bg-whitec sticky-bottom p-2 mt-sm-0 border">
+
+                                    <label for="sac_search" class="mx-1 form-label text-muted">Ajouter un objet</label>
+                                    <div class="input-group">
+                                            <input type="text" aria-label="Text input with dropdown button" input="sac_search" class="form-control" id="sac_seach_input" placeholder="Nom ou n° de Chapitre">
+                                            <button class="btn btn-outline-primary" id="sac_search_chapter" type="button"><i class="bi bi-search"></i> <i class="bi bi-123"></i></a></button>
+                                            <button class="btn btn-outline-primary" id="sac_search_name" type="button"><i class="bi bi-search"></i> <i class="bi bi-alphabet-uppercase"></i></a></button>
+                                    </div>
+                                    <div id="sac_search_result" class="collapse overflow-y-scroll" style="max-height: 60vh;">
+                                        <ul class="list-group list-group-flush"></ul>
+                                        <ul class="d-none" id="sac_search_result_template">
+                                            <li class="list-group-item d-flex d-none justify-content-between align-items-center">
+                                                <span class="text-nowrap text-truncate">?</span>
+                                                <button class="btn btn-sm btn-outline-primary border-0"><i class="bi bi-plus-lg"></i></button>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="bg-white sticky-bottom p-2 mt-sm-0">
-                                    <button type="button" class="col-12 btn btn-outline-primary">
-                                        <i class="bi bi-plus-lg"> Ajouter un objet</i>
-                                    </button>
-                                </div>
+                                
                             </div>
                         </li>
                     </ul>
