@@ -236,6 +236,16 @@ export function billy_event(b){
 
 }
 
+export const sac_add_item = item => {
+    billy.sac.push(item);
+    save(billy);
+};
+
+export const sac_remove_item = item_idx => {
+    billy.sac.splice(item_idx, 1);
+    save(billy);
+};
+
 export const show_message = (message, level = 'info', callback = undefined) => {
     const element = $('#alert-message');
     element.removeClass((_, className) => (className.match (/(^|\s)(bg|border|text)-[a-z]+-(subtle|emphasis)/g) || []).join(' '));

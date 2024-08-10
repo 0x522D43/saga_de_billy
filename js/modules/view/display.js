@@ -1,6 +1,6 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load, apply_notes_action, billy_event} from './events.js';
+import { change_billy, load, apply_notes_action, billy_event, sac_add_item as persist_new_sac_item, sac_remove_item as persist_remove_sac_item} from './events.js';
 import { books } from '../data/book.js';
 import { materiel_by_book_group_by_category } from '../data/materiel.js';
 import { objects } from '../data/objet.js';
@@ -98,7 +98,7 @@ export const set_materiel = (...materiel) => {
 }
 
 export const set_sac = (...sac) => {
-    $('.my-billy .stat-sac .stat-total').text(sac.length);
+    $('.my-billy .stat-sac .stat-total').text(0);
     sac.forEach(add_sac_item);
 }
 
@@ -111,7 +111,10 @@ export const set_sac_search = (book) => {
 const add_sac_item_research = (name) => {
     const element = $('#sac_search_result_template>li').clone();
     element.find('span').text(name);
-    element.find('button').data('name', name).on('click', function(){ add_sac_item($(this).data('name'))});
+    element.find('button').data('name', name).on('click', function(){ 
+        persist_new_sac_item(name); 
+        add_sac_item($(this).data('name'));
+    });
     $('#sac_search_result>ul:not(#sac_search_result_template)').append(element);
 };
 
@@ -121,10 +124,17 @@ const add_sac_item = function(name){
     sac_item.find('button').on('click', remove_sac_item);
     $('#sac_list').append(sac_item);
     $('#sac_vide_text').addClass('d-none');
+    const nb_item = parseInt($('.my-billy .stat-sac .stat-total').first().text());
+    $('.my-billy .stat-sac .stat-total').text(nb_item+1);
+    new bootstrap.Collapse('#sac_search_result', {toggle: false}).hide();
 };
 
 const remove_sac_item = function(){
-    $(this).parent().remove();
+    const item_to_drop = $(this).parent();
+    persist_remove_sac_item($('#sac_list>li:not(.d-none)').index( item_to_drop ));
+    item_to_drop.remove();
+    const nb_item = parseInt($('.my-billy .stat-sac .stat-total').first().text());
+    $('.my-billy .stat-sac .stat-total').text(nb_item-1);
     if($('#sac_list>li:not(#sac_vide_text)') .length === 0){
         $('#sac_vide_text').removeClass('d-none');
     }
