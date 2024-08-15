@@ -126,7 +126,6 @@ const add_sac_item = function(name){
     $('#sac_vide_text').addClass('d-none');
     const nb_item = parseInt($('.my-billy .stat-sac .stat-total').first().text());
     $('.my-billy .stat-sac .stat-total').text(nb_item+1);
-    new bootstrap.Collapse('#sac_search_result', {toggle: false}).hide();
 };
 
 const remove_sac_item = function(){
@@ -142,19 +141,24 @@ const remove_sac_item = function(){
 
 export const set_note = (...notes) => {
     $('.my-billy .stat-notes .stat-total').text(notes.length || 0);
-    $('.note-list').html('');
+    $('.note-list>*:not(.template-note)').remove();
     if((notes.length || 0) === 0){
         $('.no-notes').removeClass('d-none');
     } else {
         for(const note_id in notes){
-            const note_element = $('.template-note').children().clone();
-            note_element.find('.note-content').attr('data-bs-target', `.note-action[data-order='${note_id}']`).text(notes[note_id]);
-            note_element.find('.note-action').attr('data-order', note_id);
-            apply_notes_action(note_element);
+            const note_element = generate_note(note_id, notes[note_id]);
             $('.note-list').append(note_element);
         }
         $('.no-notes').addClass('d-none');
     }
+}
+
+export const generate_note = (index, content) => {
+    const note_element = $('.template-note').children().clone();
+    note_element.find('.note-content').attr('data-bs-target', `.note-action[data-order='${index}']`).text(content);
+    note_element.find('.note-action').attr('data-order', index);
+    apply_notes_action(note_element);
+    return note_element;
 }
 
 export const set_billy = async perso => {

@@ -12,9 +12,9 @@ class Current {
     }
 
     get_billy() {
-        this.my_billy = Object.keys(sessionStorage)
+        this.my_billy = Object.keys(localStorage)
             .filter(key => key.startsWith('Billy#'))
-            .map(key => JSON.parse(sessionStorage?.getItem(key)))
+            .map(key => JSON.parse(localStorage?.getItem(key)))
             .sort( billy => billy.modified )
             .map(billy => Billy(billy));
         return this.my_billy;

@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, generate_note} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 import utilities from './utilities.js';
@@ -38,9 +38,9 @@ export default function(b) {
 
     $('#export_billy_list').on('click', function(){
         save(utilities.current_billy);
-        const billy_data = Object.keys(sessionStorage)
+        const billy_data = Object.keys(localStorage)
             .filter(key => key.startsWith('Billy#'))
-            .map(key => JSON.parse(sessionStorage?.getItem(key)));
+            .map(key => JSON.parse(localStorage?.getItem(key)));
         
         download_text_file(`saga_de_billy.${Date.now()}.json`, JSON.stringify(billy_data, null, 4));
     });
@@ -92,12 +92,12 @@ export default function(b) {
                 name: data.name, 
                 materiel: [data.materiel_1, data.materiel_2, data.materiel_3],
             });
-            sessionStorage.removeItem(`Billy#${utilities.current_billy.name}`);
+            localStorage.removeItem(`Billy#${utilities.current_billy.name}`);
         }
-        sessionStorage.setItem(`Billy#${data.name}`, JSON.stringify(billy.export));
-        const my_billy = Object.keys(sessionStorage)
+        localStorage.setItem(`Billy#${data.name}`, JSON.stringify(billy.export));
+        const my_billy = Object.keys(localStorage)
             .filter(key => key.startsWith('Billy#'))
-            .map(key => JSON.parse(sessionStorage?.getItem(key)))
+            .map(key => JSON.parse(localStorage?.getItem(key)))
             .sort( billy => billy.modified )
             .map(billy => Billy(billy));
         set_list_billy(my_billy);
@@ -144,7 +144,7 @@ export function billy_event(b){
     });
 
     $('#delete-billy-confirm-button').on('click', function(){
-        sessionStorage.removeItem(`Billy#${utilities.current_billy.name}`);
+        localStorage.removeItem(`Billy#${utilities.current_billy.name}`);
         location.reload();
     });
 
@@ -234,6 +234,22 @@ export function billy_event(b){
         }
     });
 
+    $('#add_note_button').on('click', function(){
+        const note_txt = $('#note_add_textarea').val().trim();
+        if(note_txt.length === 0){
+            show_message('La note ne doit pas être vide.','warning');
+        } else {
+            billy.notes.push(note_txt);
+            save(billy);
+            const note_element = generate_note(billy.notes.length-1, note_txt);
+            $('.note-list').append(note_element);
+            $('.no-notes').addClass('d-none');
+            $('.btn-close[data-bs-target="#note_add_text"]').click();
+            $('#note_add_textarea').val('');
+            $('.my-billy .stat-notes .stat-total').text(billy.notes.length || 0);
+        }
+    });
+
 }
 
 export const sac_add_item = item => {
@@ -273,15 +289,15 @@ const update_CHA_restant = (billy) => {
 }
 
 export const save =  billy => {
-    sessionStorage?.setItem(`Billy#${billy.name}`, JSON.stringify(billy.export));
+    localStorage?.setItem(`Billy#${billy.name}`, JSON.stringify(billy.export));
 }
 
-export const load = name => JSON.parse(sessionStorage?.getItem(`Billy#${name}`));
+export const load = name => JSON.parse(localStorage?.getItem(`Billy#${name}`));
 
 export const remove_billy = function(e) {
     const billy = $(this).data('billy-name');
     show_message(`Billy [${billy}] va être supprimé`,'danger', () => {
-        sessionStorage.removeItem(`Billy#${billy}`);
+        localStorage.removeItem(`Billy#${billy}`);
         set_list_billy();
     });
 }
@@ -289,38 +305,26 @@ export const remove_billy = function(e) {
 export const apply_notes_action = function(selector){
     selector.find('.btn-delete').on('click', function(){
         const index = $('.note-list .note').index($(this).closest('.note'));
-        billy.notes.splice(index, 1);
+        billy.notes.splice(index-1, 1);
+        save(billy);
         $('.note-list .note').slice(index, index + 1).remove();
+        if(billy.notes.length === 0){
+            $('.no-notes').removeClass('d-none');
+        }
+        $('.my-billy .stat-notes .stat-total').text(billy.notes.length || 0);
     });
     selector.find('.btn-reorder').on('click', function(){
         const index = $('.note-list .note').index($(this).closest('.note'));
         const shift = $(this).data('step');
-        if((index + shift) >= 0 && (index + shift) < billy.notes.length){
+        if((index + shift) >= 1 && (index + shift) <= billy.notes.length){
             const target_elem = $('.note-list .note').slice(index + shift, index + shift + 1);
             const source_elem = $('.note-list .note').slice(index, index + 1);
             (index < index + shift) ? source_elem.before(target_elem) : source_elem.after(target_elem);
-            billy.notes[index] = billy.notes.splice(index + shift, 1, billy.notes[index])[0];
+            billy.notes[index-1] = billy.notes.splice(index + shift-1, 1, billy.notes[index-1])[0];
+            save(billy);
         }
     });
-    selector.find('.btn-edit').on('click', function(){
-        const index = $('.note-list .note').index($(this).closest('.note'));
-        const note = $('.note-list .note').slice(index, index + 1);
-        note.find('.note-edit').text(note.find('.note-content').text()).height(note.find('.note-content')[0].clientHeight).focus();
-        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
-    });
-    selector.find('.btn-edit-cancel').on('click', function(){
-        const index = $('.note-list .note').index($(this).closest('.note'));
-        const note = $('.note-list .note').slice(index, index + 1);
-        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
-    });
-    selector.find('.btn-edit-save').on('click', function(){
-        const index = $('.note-list .note').index($(this).closest('.note'));
-        const note = $('.note-list .note').slice(index, index + 1);
-        note.find('.action-header, .edit-header, .note-edit, .note-content').toggleClass('d-none');
-        billy.notes[index] = note.find('.note-edit').val();
-    });
 };
-
 
 export const change_billy = b => {
     $('#main').addClass('d-none');
