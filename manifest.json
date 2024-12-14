@@ -1,0 +1,77 @@
+{
+    "start_url": "page/index.html",
+    "background_color": "#e9ecef",
+    "theme_color": "#212529",
+    "categories": ["livre", "bob lennon","saga de billy"],
+    "description": "Fiche de personnage pour les livres \"Les Aventures du Pyro-Barbare & de Billy dans ...\"",
+    "dir": "ltr",
+    "lang": "fr",
+    "display": "standalone",
+    "display_override": ["standalone", "minimal-ui","fullscreen", "browser"],
+    "file_handlers": [
+        {
+            "action": "page/index.html?action=load_file",
+            "accept": {
+                "application/json": [
+                    ".lapb"
+                ]
+            }
+        }
+    ],
+    "icons": [
+        {
+            "src": "img/PYRO_R.svg",
+            "sizes": "any"
+        },
+        {
+            "src": "img/PYRO_R_small.png",
+            "sizes": "96x96"
+        }
+    ],
+    "id": "?index=0937240923709019230909834",
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    },
+    "name": "Les Aventures du Pyro-Barbare & de Billy | Fiche de Personnage",
+    "orientation": "portrait",
+    "prefer_related_applications": false,
+    "protocol_handlers": [],
+    "related_applications": [],
+    "scope": "page/",
+    "screenshots": [], 
+    "serviceworker": {}, 
+    "share_target": [], 
+    "short_name": "Saga de Billy: Fiche Perso.",
+    "shortcuts": [
+        {
+            "name": "Nouveau Billy",
+            "short_name": "Nouveau",
+            "url": "page/index.html?action=create",
+            "description": "Créer un nouveau Billy",
+            "icons":  [{
+                "src": "img/PYRO_R_small.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Importer mes Billy",
+            "short_name": "Importer",
+            "url": "page/index.html?action=import",
+            "description": "Importer un ficher avec mes Billy",
+            "icons":  [{
+                "src": "img/PYRO_R_small.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Exporter mes Billy",
+            "short_name": "Exporter",
+            "url": "page/index.html?action=export",
+            "description": "Sauvegarder mes Billy dans un Fichier",
+            "icons":  [{
+                "src": "img/PYRO_R_small.png",
+                "sizes": "96x96"
+            }]
+        }
+    ]
+}

@@ -1,5 +1,4 @@
 
-
 import { books, get_by_name as get_book_by_name } from './book.js';
 import { stat, stat_base, Stat } from './stat.js';
 import * as Materiel from './materiel.js';
@@ -47,8 +46,8 @@ class Billy {
         this.sac = sac;
         this.notes = notes;
         this.restant = {
-            CHA: Math.min(this.CHA.total, restant.CHA || Infinity),
-            PV: Math.min(this.PV.total, restant.PV || Infinity),
+            CHA: Math.max(0, Math.min(this.CHA.total, restant.CHA || Infinity)),
+            PV: Math.max(0, Math.min(this.PV.total, restant.PV || Infinity)),
 
         };
     }

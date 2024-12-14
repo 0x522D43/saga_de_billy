@@ -8,32 +8,13 @@ let billy;
 
 export default function(b) {
     
+    $('#btn-roll-dice').on('click', function(){
+    	const dice = Math.ceil((Math.random())*6);
+        show_message(`<div class="text-center ">Vous avez Obtenu</br><i class="fs-1 fw-bold bi-dice-${dice}" title="${dice}"></i><div>`,'success', undefined, true);
+    });
+    
     $('#import_billy_list, #import_billy_new').on('change', async function(e){
-        const read_billy = [];
-        for(const file of e.target.files){
-            read_billy.push(new Promise( function(resolve, reject) {
-                const reader = new FileReader();
-                reader.onloadend = function(){
-                    try {
-                        const billy_data = JSON.parse(reader.result);
-                        if(billy_data instanceof Array) {
-                            resolve(billy_data.map(Billy));
-                        } else {
-                            resolve([Billy(billy_data)]);
-                        }
-                    } catch(error) {
-                        reject(file.name);
-                    }
-                }
-                reader.readAsText(file);
-            }));
-            
-        }
-        
-        await Promise.all(read_billy).then(
-            list => list.flat().forEach(change_billy),
-            file => show_message(`Format d'import incorecte pour: ${file}`,'danger')
-        );
+        import_files(e.target.files);
     });
 
     $('#export_billy_list').on('click', function(){
@@ -42,7 +23,7 @@ export default function(b) {
             .filter(key => key.startsWith('Billy#'))
             .map(key => JSON.parse(localStorage?.getItem(key)));
         
-        download_text_file(`saga_de_billy.${Date.now()}.json`, JSON.stringify(billy_data, null, 4));
+        download_text_file(`saga_de_billy.${Date.now()}.lapb`, JSON.stringify(billy_data, null, 4));
     });
 
     $('#create-billy-book').on('change', function() {
@@ -50,10 +31,21 @@ export default function(b) {
     });
 
     $('#create-materiel-1, #create-materiel-2, #create-materiel-3').on('change', function() {
+        const previous_value = $(this).data('previous');
+        
+        if(previous_value != undefined){
+        	$('#create-materiel-1, #create-materiel-2, #create-materiel-3')
+	            .not(this)
+	            .find(`option[value="${previous_value}"`)
+	            .attr('disabled', false);
+        }
+        
         $('#create-materiel-1, #create-materiel-2, #create-materiel-3')
             .not(this)
             .find(`option[value="${$(this).val()}"`)
             .attr('disabled', true);
+            
+        $(this).data('previous', $(this).val());
     });
 
     $('#create-billy-button').on('click', function(){
@@ -115,7 +107,7 @@ export function billy_event(b){
     $('#export_current_billy').on('click', function(){
         const my_billy = utilities.current_billy;
         save(my_billy);
-        download_text_file(`saga_de_billy.${my_billy.book.shortname}.${my_billy.name}.${Date.now()}.json`, JSON.stringify(my_billy.export, null, 4));
+        download_text_file(`saga_de_billy.${my_billy.book.shortname}.${my_billy.name}.${Date.now()}.lapb`, JSON.stringify(my_billy.export, null, 4));
     });
 
 
@@ -159,7 +151,8 @@ export function billy_event(b){
         set_stat(billy[stat]);
 
         switch (Stat[stat]) {
-            case Stat.END: update_PV_restant(billy); break;
+            case Stat.END:
+            case Stat.PV: update_PV_restant(billy); break;
             case Stat.CHA: update_CHA_restant(billy); break;
         }
         save(billy);
@@ -262,11 +255,15 @@ export const sac_remove_item = item_idx => {
     save(billy);
 };
 
-export const show_message = (message, level = 'info', callback = undefined) => {
+export const show_message = (message, level = 'info', callback = undefined, format = false) => {
     const element = $('#alert-message');
     element.removeClass((_, className) => (className.match (/(^|\s)(bg|border|text)-[a-z]+-(subtle|emphasis)/g) || []).join(' '));
     element.addClass(`bg-${level}-subtle text-${level}-emphasis`);
-    element.find('.toast-body .message').text(message);
+    if(format){
+    	element.find('.toast-body .message').html(message);
+    } else {
+    	element.find('.toast-body .message').text(message);
+    }
     const toast = bootstrap.Toast.getOrCreateInstance(element);
     element.find('.toast-body .confirmation').toggleClass('d-none', callback === undefined).on('click', function() {
         callback();
@@ -279,13 +276,13 @@ export const show_message = (message, level = 'info', callback = undefined) => {
 const update_PV_restant = (billy) => {
     billy.PV.base = stat_base.PV(billy.END.total);
     set_stat(billy.PV);
-    billy.restant.PV = Math.min(billy.restant.PV, billy.PV.total);
-    set_restant(Stat.PV, billy.restant.PV);
+    billy.restant.PV = Math.max(0, Math.min(billy.restant.PV, billy.PV.total));
+    set_restant(Stat.PV, billy.restant.PV, 0, billy.PV.total);
 };
 
 const update_CHA_restant = (billy) => {
-    billy.restant.CHA = Math.min(billy.restant.CHA, billy.CHA.total);
-    set_restant(Stat.CHA, billy.restant.CHA);
+    billy.restant.CHA = Math.max(0, Math.min(billy.restant.CHA, billy.CHA.total));
+    set_restant(Stat.CHA, billy.restant.CHA, 0, billy.PV.total);
 }
 
 export const save =  billy => {
@@ -349,4 +346,45 @@ const download_text_file = (filename, text) => {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+}
+
+export const import_files = async (files, from_pwa = false) => {
+    let read_billy = [];
+    if(from_pwa){
+        for (const file of files) {
+            const blob = await file.getFile();
+            blob.handle = file;
+            const text = await blob.text();
+            const billy_data = JSON.parse(text);
+            if(billy_data instanceof Array) {
+                read_billy.push(billy_data.map(Billy));
+            } else {
+                read_billy.push([Billy(billy_data)]);
+            }
+        }
+        read_billy.flat().forEach(change_billy);
+    } else {
+        for(const file of files){
+            read_billy.push(new Promise( function(resolve, reject) {
+                const reader = new FileReader();
+                reader.onloadend = function(){
+                    try {
+                        const billy_data = JSON.parse(reader.result);
+                        if(billy_data instanceof Array) {
+                            resolve(billy_data.map(Billy));
+                        } else {
+                            resolve([Billy(billy_data)]);
+                        }
+                    } catch(error) {
+                        reject(file.name);
+                    }
+                }
+                reader.readAsText(file);
+            }));
+        }
+        await Promise.all(read_billy).then(
+            list => list.flat().forEach(change_billy),
+            file => show_message(`Format d'import incorecte pour: ${file}`,'danger')
+        );
+    }
 }

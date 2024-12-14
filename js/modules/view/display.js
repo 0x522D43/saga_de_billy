@@ -1,6 +1,6 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load, apply_notes_action, billy_event, sac_add_item as persist_new_sac_item, sac_remove_item as persist_remove_sac_item} from './events.js';
+import { change_billy, load, apply_notes_action, billy_event, sac_add_item as persist_new_sac_item, sac_remove_item as persist_remove_sac_item, show_message} from './events.js';
 import { books } from '../data/book.js';
 import { materiel_by_book_group_by_category } from '../data/materiel.js';
 import { objects } from '../data/objet.js';
@@ -76,11 +76,11 @@ export const set_caractere = (name, caractere) => {
     $('.my-billy .caractere-type').text(caractere.name)
         .css('background-color', caractere.color+'88');
 }
-export const set_restant = (stat_name, quantite = 0, min = undefined, max = undefined) => {
+export const set_restant = (stat_name, quantite = undefined, min = undefined, max = undefined) => {
     const stat_class_name = resolve_class_from_stat(stat_name);
-    $(`.my-billy .${stat_class_name} .stat-restant`).text(quantite);
     $(`.my-billy .${stat_class_name} .stat-restant-change`).data('stat-min', min);
     $(`.my-billy .${stat_class_name} .stat-restant-change`).data('stat-max', max);
+    $(`.my-billy .${stat_class_name} .stat-restant`).text(quantite);
 }
 
 export const set_materiel = (...materiel) => {
