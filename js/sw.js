@@ -12,7 +12,7 @@ const APP_STATIC_RESOURCES = [
     "/js/modules/data/caractere.js",
     "/js/modules/data/materiel.js",
     "/js/modules/data/objet.js",
-    "/js/modules/data/profile.js",
+    "/js/modules/data/succes.js",
     "/js/modules/data/stat.js",
     "/js/modules/view/display.js",
     "/js/modules/view/event.js",

@@ -1,9 +1,11 @@
 import { Stat, stat as Stats, sub_stat as Sub_Stats } from '../data/stat.js';
 import Billy from '../data/billy.js';
-import { change_billy, load, apply_notes_action, billy_event, sac_add_item as persist_new_sac_item, sac_remove_item as persist_remove_sac_item, show_message} from './events.js';
+import { change_billy, load, apply_notes_action, billy_event, sac_add_item as persist_new_sac_item, sac_remove_item as persist_remove_sac_item, save_succes} from './events.js';
 import { books } from '../data/book.js';
 import { materiel_by_book_group_by_category } from '../data/materiel.js';
 import { objects } from '../data/objet.js';
+import { succes } from '../data/succes.js';
+import utilities from './utilities.js';
 
 const resolve_class_from_stat = (stat) => {
     switch ( stat ) {
@@ -164,6 +166,7 @@ export const generate_note = (index, content) => {
 export const set_billy = async perso => {
     $('#loading').removeClass('d-none');
     $('#main').removeClass('show');
+    create_list_succes(perso.book.shortname);
     await fetch('./billy.html')
     .then(r => r.text())    
     .then(billy => {
@@ -235,6 +238,40 @@ export const create_list_materiel = (book, materiels ) => {
         }
     }
 };
+
+export const create_list_succes = (book) => {
+    update_succes_counter(book);
+    const user_succes = utilities.get_succes(book);
+    $('#succes_list').children().remove();
+    succes[book].list.forEach((succe,idx) => {
+        const element = $('#template-succes>div').clone();
+        const id = `checkbox_succes_${idx}`;
+        element.find('.succes_titre').text(succe.titre);
+        element.find('.succes_description').text(succe.description);
+        element.find('input')
+            .prop('id', id)
+            .prop('checked', user_succes.indexOf(succe.titre) != -1)
+            .on('change', () => {
+                save_succes(); 
+                update_succes_counter(book);
+            });
+        element.find('label').prop('for', id);
+        $('#succes_list').append(element);
+    });
+    $('#btn-succes').prop('disabled', false);
+}
+
+export const update_succes_counter = (book) => {
+    const user_succes_count = utilities.get_succes(book).length;
+    const book_succes = succes[book];
+    const total_succes = book_succes.list.length;
+    $('#modal-success .progress')
+        .prop('aria-valuenow', user_succes_count)
+        .prop('aria-valuemax', total_succes);
+    $('#modal-success .progress-bar').css('width', `${user_succes_count / total_succes * 100}%`);
+    const text = user_succes_count === total_succes ? `<i class="bi-stars"></i> ${book_succes.complet}` : `${user_succes_count} / ${total_succes}`;
+    $('.sucess_ratio').html(text);
+}
 
 create_list_book($('#create-billy-book'));
 create_list_materiel($('#create-billy-book'), $('#create-materiel-1, #create-materiel-2, #create-materiel-3'));

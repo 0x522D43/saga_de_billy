@@ -24,6 +24,10 @@ class Current {
         this.current_billy = this.my_billy.reduce( (prev, curr) => prev?.modified > curr?.modified ? prev : curr, undefined );
         return this.current_billy;
     }
+
+    get_succes(book) {
+        return JSON.parse(localStorage?.getItem(`succes#${book}`)) || [];
+    }
 }
 
 export default new Current();

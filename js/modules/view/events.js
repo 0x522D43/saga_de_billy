@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, generate_note} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, generate_note, create_list_succes} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 import utilities from './utilities.js';
@@ -10,7 +10,7 @@ export default function(b) {
     
     $('#btn-roll-dice').on('click', function(){
     	const dice = Math.ceil((Math.random())*6);
-        show_message(`<div class="text-center ">Vous avez Obtenu</br><i class="fs-1 fw-bold bi-dice-${dice}" title="${dice}"></i><div>`,'success', undefined, true);
+        show_message(`<div class="text-center ">Vous avez obtenu ${dice}</br><i class="fs-1 fw-bold bi-dice-${dice}" aria-label="dé ${dice}"></i><div>`,'success', undefined, true);
     });
     
     $('#import_billy_list, #import_billy_new').on('change', async function(e){
@@ -137,6 +137,7 @@ export function billy_event(b){
 
     $('#delete-billy-confirm-button').on('click', function(){
         localStorage.removeItem(`Billy#${utilities.current_billy.name}`);
+        $("#btn-succes").prop('disabled', true);
         location.reload();
     });
 
@@ -285,7 +286,7 @@ const update_CHA_restant = (billy) => {
     set_restant(Stat.CHA, billy.restant.CHA, 0, billy.PV.total);
 }
 
-export const save =  billy => {
+export const save = billy => {
     localStorage?.setItem(`Billy#${billy.name}`, JSON.stringify(billy.export));
 }
 
@@ -387,4 +388,10 @@ export const import_files = async (files, from_pwa = false) => {
             file => show_message(`Format d'import incorecte pour: ${file}`,'danger')
         );
     }
+}
+
+export const save_succes = () => {
+    const succes = $('#succes_list input:checked').siblings('label').find('.succes_titre').toArray().map(e => $(e).text());
+    localStorage?.setItem(`succes#${billy.book.shortname}`, JSON.stringify(succes));
+
 }
