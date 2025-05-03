@@ -4,7 +4,7 @@ const CACHE_NAME = `les-aventures-du-pb-et-billy-${VERSION}`;
 
 const APP_STATIC_RESOURCES = [
     "/",
-    "/page/index.html",
+    "/index.html",
     "/page/billy.html",
     "/js/index.js",
     "/js/modules/data/billy.js",

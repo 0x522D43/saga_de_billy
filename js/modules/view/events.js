@@ -1,4 +1,4 @@
-import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, generate_note, create_list_succes} from './display.js';
+import {set_restant, set_stat, set_list_billy, set_billy, create_list_book, create_list_materiel, generate_note} from './display.js';
 import {stat as Stat, stat_base} from '../data/stat.js';
 import Billy from '../data/billy.js';
 import utilities from './utilities.js';
@@ -377,6 +377,7 @@ export const import_files = async (files, from_pwa = false) => {
                             resolve([Billy(billy_data)]);
                         }
                     } catch(error) {
+                        console.error(error);
                         reject(file.name);
                     }
                 }

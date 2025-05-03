@@ -2,7 +2,6 @@
 import { set_list_billy, default as Display } from './modules/view/display.js';
 import Event from './modules/view/events.js';
 import utilities from './modules/view/utilities.js';
-import {import_files} from './modules/view/events.js';
 
 const my_billy = utilities.get_billy();
 let billy = utilities.current_billy;
@@ -16,7 +15,7 @@ if (billy) {
 }
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("../js/sw.js").then(
+    navigator.serviceWorker.register("./js/sw.js").then(
         registration => console.log("Service worker registration successful:", registration),
         error => console.error(`Service worker registration failed: ${error}`),
     );
@@ -25,7 +24,7 @@ if ("serviceWorker" in navigator) {
 }
 
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("../js/sw.js").then(
+    navigator.serviceWorker.register("./js/sw.js").then(
         registration => console.log("Service worker registration successful:", registration),
         error => console.error(`Service worker registration failed: ${error}`),
     );
@@ -67,7 +66,7 @@ const load_file = () => {
         console.log('File Handling API is supported!');
     
         launchQueue.setConsumer(launchParams => {
-            import_files(launchParams.files, true);
+            Event.import_files(launchParams.files, true);
         });
     } else {
         console.error('File Handling API is not supported!');
