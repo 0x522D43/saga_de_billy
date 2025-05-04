@@ -3,24 +3,26 @@ const VERSION = "v1";
 const CACHE_NAME = `les-aventures-du-pb-et-billy-${VERSION}`;
 
 const APP_STATIC_RESOURCES = [
-    "/",
-    "/index.html",
-    "/page/billy.html",
-    "/js/index.js",
-    "/js/modules/data/billy.js",
-    "/js/modules/data/book.js",
-    "/js/modules/data/caractere.js",
-    "/js/modules/data/materiel.js",
-    "/js/modules/data/objet.js",
-    "/js/modules/data/succes.js",
-    "/js/modules/data/stat.js",
-    "/js/modules/view/display.js",
-    "/js/modules/view/event.js",
-    "/js/modules/view/utilities.js",
-    "/img/FDCN.svg",
-    "/img/CDSI.svg",
-    "/img/LDV.svg",
-    "/img/PYRO.svg",
+    "/saga_de_billy",
+    "/saga_de_billy/",
+    "/saga_de_billy/index.html",
+    "/saga_de_billy/page/billy.html",
+    "/saga_de_billy/js/index.js",
+    "/saga_de_billy/js/sw.js",
+    "/saga_de_billy/js/modules/data/billy.js",
+    "/saga_de_billy/js/modules/data/book.js",
+    "/saga_de_billy/js/modules/data/caractere.js",
+    "/saga_de_billy/js/modules/data/materiel.js",
+    "/saga_de_billy/js/modules/data/objet.js",
+    "/saga_de_billy/js/modules/data/succes.js",
+    "/saga_de_billy/js/modules/data/stat.js",
+    "/saga_de_billy/js/modules/view/display.js",
+    "/saga_de_billy/js/modules/view/events.js",
+    "/saga_de_billy/js/modules/view/utilities.js",
+    "/saga_de_billy/img/FDCN.svg",
+    "/saga_de_billy/img/CDSI.svg",
+    "/saga_de_billy/img/LDV.svg",
+    "/saga_de_billy/img/PYRO_R.svg",
 ];
 
 
@@ -50,7 +52,7 @@ self.addEventListener("fetch", (event) => {
     // when seeking an HTML page
     if (event.request.mode === "navigate") {
         // Return to the index.html page
-        event.respondWith(caches.match("/"));
+        event.respondWith(caches.match("/saga_de_billy"));
         return;
     }
 

@@ -1,5 +1,5 @@
 {
-    "start_url": "index.html",
+    "start_url": "/saga_de_billy/index.html",
     "background_color": "#e9ecef",
     "theme_color": "#212529",
     "categories": ["livre", "bob lennon","saga de billy"],
@@ -13,7 +13,7 @@
             "action": "index.html?action=load_file",
             "accept": {
                 "application/json": [
-                    ".json"
+                    ".billy"
                 ]
             }
         }
@@ -35,9 +35,14 @@
     "name": "Les Aventures du Pyro-Barbare & de Billy | Fiche de Personnage",
     "orientation": "portrait",
     "prefer_related_applications": false,
-    "protocol_handlers": [],
+    "protocol_handlers": [
+        {
+            "protocol": "web+billy",
+            "url": "index.html?web=%s"
+        }
+    ],
     "related_applications": [],
-    "scope": "/",
+    "scope": "/saga_de_billy",
     "screenshots": [], 
     "serviceworker": {}, 
     "share_target": [], 
@@ -48,16 +53,6 @@
             "short_name": "Nouveau",
             "url": "index.html?action=create",
             "description": "Créer un nouveau Billy",
-            "icons":  [{
-                "src": "img/PYRO_R_small.png",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Importer mes Billy",
-            "short_name": "Importer",
-            "url": "index.html?action=import",
-            "description": "Importer un ficher avec mes Billy",
             "icons":  [{
                 "src": "img/PYRO_R_small.png",
                 "sizes": "96x96"

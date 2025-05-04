@@ -23,7 +23,7 @@ export default function(b) {
             .filter(key => key.startsWith('Billy#'))
             .map(key => JSON.parse(localStorage?.getItem(key)));
         
-        download_text_file(`saga_de_billy.${Date.now()}.lapb`, JSON.stringify(billy_data, null, 4));
+        download_text_file(`saga_de_billy.${Date.now()}.billy`, JSON.stringify(billy_data, null, 4));
     });
 
     $('#create-billy-book').on('change', function() {
@@ -107,7 +107,24 @@ export function billy_event(b){
     $('#export_current_billy').on('click', function(){
         const my_billy = utilities.current_billy;
         save(my_billy);
-        download_text_file(`saga_de_billy.${my_billy.book.shortname}.${my_billy.name}.${Date.now()}.lapb`, JSON.stringify(my_billy.export, null, 4));
+        download_text_file(`saga_de_billy.${my_billy.book.shortname}.${my_billy.name}.${Date.now()}.billy`, JSON.stringify(my_billy.export, null, 4));
+    });
+
+    $('#share_current_billy').on('click', function(){
+        save(billy);
+        const billy_data = JSON.stringify(billy.export);
+        const encoded_data = btoa(encodeURIComponent(billy_data));
+        
+        if (navigator.share) {
+            navigator.share({
+              title: document.title,
+              text: `Billy [${billy.name}]`,
+              url: `?action=load_file&content=${encoded_data}`,
+            })
+            .catch(error => show_message('Error lors du partage', 'danger'));
+          } else {
+            show_message('Partage non supporté', 'danger');
+          }
     });
 
 
@@ -287,7 +304,9 @@ const update_CHA_restant = (billy) => {
 }
 
 export const save = billy => {
-    localStorage?.setItem(`Billy#${billy.name}`, JSON.stringify(billy.export));
+    if(billy){
+        localStorage?.setItem(`Billy#${billy.name}`, JSON.stringify(billy.export));
+    }
 }
 
 export const load = name => JSON.parse(localStorage?.getItem(`Billy#${name}`));
@@ -353,9 +372,14 @@ export const import_files = async (files, from_pwa = false) => {
     let read_billy = [];
     if(from_pwa){
         for (const file of files) {
-            const blob = await file.getFile();
-            blob.handle = file;
-            const text = await blob.text();
+            let text = null;
+            if(file instanceof File) {
+                const blob = await file.getFile();
+                blob.handle = file;
+                text = await blob.text();
+            } else {
+                text = file;
+            }
             const billy_data = JSON.parse(text);
             if(billy_data instanceof Array) {
                 read_billy.push(billy_data.map(Billy));

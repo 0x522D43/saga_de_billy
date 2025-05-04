@@ -171,7 +171,7 @@ export const succes = {
                 "titre": "Un bon tuteur",
                 "description": "Terminer le jeu avec un Billy PAYSAN"
             }, {
-                "titre": "Sa place est dans un misée",
+                "titre": "Sa place est dans un musée",
                 "description": "Terminer le jeu avec un Billy DEBROUILLARD"
             }, {
                 "titre": "Bonne chance au prochain",

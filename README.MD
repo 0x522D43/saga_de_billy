@@ -17,5 +17,10 @@ Saga de Billy est une Progressive Web App (PWA) permettant de gérer les fiches 
     cd saga_de_billy
     ```
 
+## Dépendances
+- [jQuery 3.7.1](https://jquery.com/) : pour simplifier les manipulations DOM et les interactions JavaScript.
+- [Bootstrap 5.3.5](https://getbootstrap.com/) : pour le design et la mise en page responsive.
+- [Bootstrap Icons 1.11.3](https://icons.getbootstrap.com/) : pour les icones.
+
 ## A propos
 Ce projet est une initiative non officielle et sans but lucratif, réalisée par passion.

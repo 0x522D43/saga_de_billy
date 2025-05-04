@@ -1,6 +1,6 @@
 'use strict';
 import { set_list_billy, default as Display } from './modules/view/display.js';
-import Event from './modules/view/events.js';
+import {default as Event, import_files} from './modules/view/events.js';
 import utilities from './modules/view/utilities.js';
 
 const my_billy = utilities.get_billy();
@@ -23,20 +23,12 @@ if ("serviceWorker" in navigator) {
     console.error("Service workers are not supported.");
 }
 
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./js/sw.js").then(
-        registration => console.log("Service worker registration successful:", registration),
-        error => console.error(`Service worker registration failed: ${error}`),
-    );
-} else {
-    console.error("Service workers are not supported.");
-}
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 $( document ).ready(function() {
-    const action = urlParams.get('action');
+    const web = urlParams.get('web') ? new URL(urlParams.get('web')) : null;
+    const action = (web != null) ? web.host : urlParams.get('action');
     switch (action){
         case 'create':
             setTimeout(() => $('#create-billy-button').click(), 50);
@@ -48,7 +40,7 @@ $( document ).ready(function() {
             $('#export_billy_list').click();
             break;
         case 'load_file':
-            load_file();
+            load_file(web?.searchParams.get('content') || urlParams.get('content'));
             break;
         default:
             if(action){
@@ -58,17 +50,24 @@ $( document ).ready(function() {
     }
     const url = new URL(window.location);
     url.searchParams.delete('action');
+    url.searchParams.delete('web');
     window.history.pushState({}, document.title, url);
 });
 
-const load_file = () => {
-    if ('launchQueue' in window) {
+const load_file = (content) => {
+    if(content){
+        console.log(content);
+        const file = decodeURIComponent(atob(content));
+        console.log(file);
+        import_files([file], true);
+    } else if ('launchQueue' in window) {
         console.log('File Handling API is supported!');
-    
         launchQueue.setConsumer(launchParams => {
-            Event.import_files(launchParams.files, true);
+            import_files(launchParams.files, true);
         });
-    } else {
+    } else if (!content) {
         console.error('File Handling API is not supported!');
+    } else {
+        console.error('No file content provided!');
     }
 }
