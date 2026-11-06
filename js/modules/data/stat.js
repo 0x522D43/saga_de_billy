@@ -53,7 +53,7 @@ export const icon = {
     richesse: 'bi-database',
     respect: 'bi-hand-thumbs-up',
     rancune: 'bi-emoji-angry',
-    impulsion: 'bi-lightning-charge',
+    impulsion: 'bi-activity',
     lucidite: 'bi-lightbulb',
 };
 
