@@ -13,7 +13,7 @@
             "action": "index.html?action=load_file",
             "accept": {
                 "application/json": [
-                    ".billy"
+                    ".json"
                 ]
             }
         }
@@ -70,3 +70,4 @@
         }
     ]
 }
+

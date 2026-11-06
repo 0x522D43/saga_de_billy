@@ -325,5 +325,14 @@ export const succes = {
                 "description": "Vous avez débloqué tous les autres succès ! Vous êtes un vrai Billy des Sables d'Ivoire !"
             }
         ]
+    },
+    "LDV": {
+        "complet": "Un jour sans fin", 
+        "list": [
+            {
+                "titre": "Un jour sans fin",
+                "description": "Vous avez débloqué tous les autres succès ! Vous êtes un vrai Billy de Valkardie !"
+            }
+        ]
     }
 }

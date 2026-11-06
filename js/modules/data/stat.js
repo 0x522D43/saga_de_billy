@@ -11,6 +11,8 @@ export const stat_base = {
     richesse: 0,
     respect: 0,
     rancune: 0,
+    impulsion: 0,
+    lucidite: 0,
     
 };
 
@@ -27,6 +29,8 @@ export const stat = {
     richesse: 'Richesse',
     respect: 'Respect',
     rancune: 'Rancune',
+    impulsion: 'Impulsion',
+    lucidite: 'Lucidité',
 };
 
 export const sub_stat = {
@@ -49,6 +53,8 @@ export const icon = {
     richesse: 'bi-database',
     respect: 'bi-hand-thumbs-up',
     rancune: 'bi-emoji-angry',
+    impulsion: 'bi-lightning-charge',
+    lucidite: 'bi-lightbulb',
 };
 
 

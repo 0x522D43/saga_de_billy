@@ -55,6 +55,7 @@ export const materiel = {
         book: {
             FDCN: {},
             CDSI: {},
+            LDV: {HAB: 3,ADR: 1, CRIT: 5},
         },
     },
     cotte_de_maille: { 
@@ -96,6 +97,7 @@ export const materiel = {
         stat: { CHA: 3 },
         book: {
             CDSI: {},
+            LDV: {},
         },
     },
     kit_de_soin: { 
@@ -171,7 +173,87 @@ export const materiel = {
             FDCN: {},
             CDSI: {},
         },
-    }
+    },
+    epee_batarde: {
+        name: 'L\'Epée Bâtarde',
+        categorie: categorie.armes,
+        stat: { HAB: 3, END: 1 },
+        book: {
+            LDV: {},
+        },
+    },
+    lance_de_joute: {
+        name: 'La Lance de Joute',
+        categorie: categorie.armes,
+        stat: { HAB: 3, CRIT: 3 },
+        book: {
+            LDV: {},
+        },
+    },
+    petit_marteau: {
+        name: 'Le Petit Marteau',
+        categorie: categorie.armes,
+        stat: { HAB: 1, DEG: 1, ADR: 1 },
+        book: {
+            LDV: {},
+        },
+    },
+    bouclier: {
+        name: 'Le Bouclier',
+        categorie: categorie.equipements,
+        stat: { END: 2, ARM: 1, ADR: -1 },
+        book: {
+            LDV: {},
+        },
+    },
+    caserole_ornee: {
+        name: 'La Casserole Ornée',
+        categorie: categorie.equipements,
+        stat: { ARM: 1, CRIT: 2, PV: 2, richesse: 1 },
+        book: {
+            LDV: {},
+        },
+    },
+    kit_de_caligraphie: {
+        name: 'Le Kit de Calligraphie',
+        categorie: categorie.equipements,
+        stat: { CHA: 3, ADR: 1 },
+        book: {
+            LDV: {},
+        },
+    },
+    beche: {
+        name: 'La Bêche',
+        categorie: categorie.outils,
+        stat: { HAB: 2, END: 2 },
+        book: {
+            LDV: {},
+        },
+    },
+    dague_a_rouelles: {
+        name: 'La Dague à Rouelles',
+        categorie: categorie.outils,
+        stat: { CRIT: 8 },
+        book: {
+            LDV: {},
+        },
+    },
+    chaine_metalique: {
+        name: 'La Chaîne Métallique',
+        categorie: categorie.outils,
+        stat: { ADR: 1, ARM: 1 },
+        book: {
+            LDV: {},
+        },
+    },
+    bouteille_huile_universelle: {
+        name: 'La Bouteille d\'Huile Universelle',
+        categorie: categorie.outils,
+        stat: { END: 2, CHA: 3 },
+        book: {
+            LDV: {},
+        },
+    },
 }
 
 export const get_caractere = (...materiels) => {

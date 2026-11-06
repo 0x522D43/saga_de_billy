@@ -1,4 +1,3 @@
-
 export const books = {
     FDCN: {
         shortname: 'FDCN',
@@ -18,7 +17,8 @@ export const books = {
         shortname: 'LDV',
         name: 'La Lance de Valkar',
         tome: 3,
-        color: '#a6e9d5',
+        color: '#bca6e9',
+        ready: true,
     },
     NDC: {
         shortname: 'NDC',
