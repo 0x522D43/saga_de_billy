@@ -48,7 +48,6 @@ class Billy {
         this.restant = {
             CHA: Math.max(0, Math.min(this.CHA.total, restant.CHA || Infinity)),
             PV: Math.max(0, Math.min(this.PV.total, restant.PV || Infinity)),
-
         };
     }
 
@@ -113,13 +112,21 @@ class BillyCDSI extends Billy {
 }
 
 class BillyLDV extends Billy {    
-   
+    impulsion;
+    lucidite;
+
     constructor({ ...billy }){
         super(billy);
+        const stat_materiel = Materiel.get_stat(...this.materiel);
+        this.impulsion = new Stat(stat.impulsion, stat_base.impulsion, this.caractere.stat.impulsion, stat_materiel.impulsion, billy.bonus?.impulsion);
+        this.lucidite = new Stat(stat.lucidite, stat_base.lucidite, this.caractere.stat.lucidite, stat_materiel.lucidite, billy.bonus?.lucidite);
     }
 
     get export(){
-        return super.export;
+        const data = super.export;
+        data.bonus.impulsion = this.impulsion.bonus;
+        data.bonus.lucidite = this.lucidite.bonus;
+        return data;
     }
 }
 

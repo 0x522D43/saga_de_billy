@@ -21,6 +21,8 @@ const resolve_class_from_stat = (stat) => {
         case Stats.richesse: return 'stat-richesse';
         case Stats.respect: return 'stat-respect';
         case Stats.rancune: return 'stat-rancune';
+        case Stats.impulsion: return 'stat-impulsion';
+        case Stats.lucidite: return 'stat-lucidite';
         default: throw new Error(`cannot set stat for '${stat}'` );
     }
 };

@@ -81,5 +81,8 @@ export const objects = {
         "Tonique Mysterieux": [176],
         "Trombone": [109],
         "Turban pour Khazin": [536]
-    }
+    },
+    "LDV": {
+        "TODO": []
+    },
 };
